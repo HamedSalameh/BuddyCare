@@ -5,6 +5,7 @@ import {
   initializeFirestore,
   connectFirestoreEmulator,
   persistentLocalCache,
+  persistentSingleTabManager,
   Firestore,
 } from 'firebase/firestore';
 import { getFunctions, connectFunctionsEmulator, Functions } from 'firebase/functions';
@@ -37,9 +38,15 @@ export function provideFirebaseAuth(env: Environment, app: FirebaseApp): Auth {
 }
 
 export function provideFirebaseFirestore(env: Environment, app: FirebaseApp): Firestore {
-  // Use initializeFirestore with persistentLocalCache (replaces deprecated enableIndexedDbPersistence)
   const db = initializeFirestore(app, {
-    localCache: persistentLocalCache(),
+    // Single-tab manager avoids multi-tab IndexedDB owner-election issues on Android.
+    // Without this, onSnapshot can silently serve stale cache when the PWA resumes.
+    localCache: persistentLocalCache({
+      tabManager: persistentSingleTabManager({ forceOwnership: true }),
+    }),
+    // Auto-detect when WebSocket is blocked (common on mobile networks) and fall
+    // back to HTTP long-polling so real-time updates keep working.
+    experimentalAutoDetectLongPolling: true,
   });
   if (env.useEmulators) {
     connectFirestoreEmulator(db, env.emulators.firestore.host, env.emulators.firestore.port);

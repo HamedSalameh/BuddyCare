@@ -183,7 +183,20 @@
     "CHILD_NAME": "اسم الطفل",
     "CHILD_AGE": "العمر",
     "SELECT_AVATAR": "اختر صورة رمزية",
-    "SWITCH_CHILD": "تبديل الطفل"
+    "SWITCH_CHILD": "تغيير الطفل",
+    "EDIT": "تعديل",
+    "SAVE": "حفظ",
+    "CANCEL": "إلغاء",
+    "REMOVE": "حذف الطفل",
+    "REMOVE_CONFIRM": "حذف {{name}} من عائلتك؟ لا يمكن التراجع.",
+    "CLEAR_DATA": "حذف جميع البيانات",
+    "CLEAR_CONFIRM": "حذف جميع سجلات {{name}}؟ لا يمكن التراجع.",
+    "CLEAR_DONE": "تم حذف {{count}} سجل.",
+    "EXPORT": "تصدير التقرير",
+    "EXPORTING": "جار التصدير…",
+    "ACTIVE": "نشط",
+    "NAME_PLACEHOLDER": "اسم الطفل",
+    "ADD_TITLE": "إضافة طفل جديد"
   },
   "SETTINGS": {
     "TITLE": "الإعدادات",

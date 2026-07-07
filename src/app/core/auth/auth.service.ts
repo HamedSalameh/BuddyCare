@@ -24,7 +24,9 @@ import {
   doc,
   getDoc,
   getDocs,
+  getDocsFromServer,
   setDoc,
+  updateDoc,
   collection,
   query,
   where,
@@ -255,6 +257,37 @@ export class AuthService implements OnDestroy {
     return childId;
   }
 
+  async updateChild(
+    familyId: string,
+    childId: string,
+    updates: { name?: string; avatarId?: number },
+  ): Promise<void> {
+    await updateDoc(doc(this.db, `families/${familyId}/children`, childId), {
+      ...updates,
+      updatedAt: serverTimestamp(),
+    });
+    this._children.update(list =>
+      list.map(c => c.id === childId ? { ...c, ...updates } : c),
+    );
+    if (this._activeChild()?.id === childId) {
+      this._activeChild.update(c => c ? { ...c, ...updates } : c);
+    }
+    this.logger.info('[AuthService] Child updated', childId);
+  }
+
+  async removeChild(familyId: string, childId: string): Promise<void> {
+    await updateDoc(doc(this.db, `families/${familyId}/children`, childId), {
+      isActive:  false,
+      updatedAt: serverTimestamp(),
+    });
+    this._children.update(list => list.filter(c => c.id !== childId));
+    if (this._activeChild()?.id === childId) {
+      const remaining = this._children();
+      this._activeChild.set(remaining[0] ?? null);
+    }
+    this.logger.info('[AuthService] Child removed', childId);
+  }
+
   setActiveChild(child: Child): void {
     this._activeChild.set(child);
   }
@@ -326,7 +359,9 @@ export class AuthService implements OnDestroy {
 
   private async loadChildrenOnce(familyId: string): Promise<void> {
     try {
-      const snap = await getDocs(query(
+      // Use getDocsFromServer to bypass IndexedDB cache and get fresh data —
+      // prevents stale children list on Android after sign-in.
+      const snap = await getDocsFromServer(query(
         collection(this.db, `families/${familyId}/children`),
         where('isActive', '==', true),
       ));

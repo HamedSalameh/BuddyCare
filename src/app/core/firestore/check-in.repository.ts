@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { where, orderBy, limit, Timestamp } from 'firebase/firestore';
+import { where, orderBy, limit, query, writeBatch, getDocsFromServer, Timestamp } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 import { FirestoreRepository } from '@core/firestore/firestore.repository';
 import { CheckIn } from '@core/models/check-in.model';
@@ -29,14 +29,16 @@ export class CheckInRepository extends FirestoreRepository<CheckIn> {
     childId: string,
     limitCount = 50,
   ): Promise<CheckIn[]> {
-    // Single equality filter only — avoids composite index requirement.
-    // Sorting and filtering are done client-side.
-    const all = await this.list(
-      familyId,
+    // getDocsFromServer bypasses IndexedDB cache — prevents stale data on Android.
+    // Single equality filter only to avoid composite index requirement.
+    const q = query(
+      this.colRef(familyId),
       where('childId', '==', childId),
       limit(200),
     );
-    return all
+    const snap = await getDocsFromServer(q);
+    return snap.docs
+      .map(d => ({ id: d.id, ...(d.data() as Record<string, unknown>) }) as unknown as CheckIn)
       .filter(c => c.syncState !== 'failed')
       .sort((a, b) => {
         const ta = a.timestamp?.seconds ?? a.timestamp?.toMillis?.() ?? 0;
@@ -75,5 +77,28 @@ export class CheckInRepository extends FirestoreRepository<CheckIn> {
    */
   markSynced(familyId: string, checkInId: string): Promise<void> {
     return this.update(familyId, checkInId, { syncState: 'synced' } as any);
+  }
+
+  /** Delete every check-in for a child. Returns the number of deleted docs. */
+  async deleteAllForChild(familyId: string, childId: string): Promise<number> {
+    const q = query(this.colRef(familyId), where('childId', '==', childId));
+    const snap = await getDocsFromServer(q);
+    const docs = snap.docs;
+    // Firestore batch limit is 500 writes
+    for (let i = 0; i < docs.length; i += 500) {
+      const batch = writeBatch(this.db);
+      docs.slice(i, i + 500).forEach(d => batch.delete(d.ref));
+      await batch.commit();
+    }
+    return docs.length;
+  }
+
+  /** Fetch all check-ins for export (sorted oldest→newest). */
+  async listAllForExport(familyId: string, childId: string): Promise<CheckIn[]> {
+    const q = query(this.colRef(familyId), where('childId', '==', childId));
+    const snap = await getDocsFromServer(q);
+    return snap.docs
+      .map(d => ({ id: d.id, ...(d.data() as Record<string, unknown>) }) as unknown as CheckIn)
+      .sort((a, b) => (a.timestamp?.seconds ?? 0) - (b.timestamp?.seconds ?? 0));
   }
 }

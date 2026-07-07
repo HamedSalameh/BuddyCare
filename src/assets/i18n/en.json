@@ -183,7 +183,20 @@
     "CHILD_NAME": "Child's name",
     "CHILD_AGE": "Age",
     "SELECT_AVATAR": "Pick an avatar",
-    "SWITCH_CHILD": "Switch child"
+    "SWITCH_CHILD": "Switch child",
+    "EDIT": "Edit",
+    "SAVE": "Save",
+    "CANCEL": "Cancel",
+    "REMOVE": "Remove child",
+    "REMOVE_CONFIRM": "Remove {{name}} from your family? This cannot be undone.",
+    "CLEAR_DATA": "Clear all data",
+    "CLEAR_CONFIRM": "Delete all check-ins for {{name}}? This cannot be undone.",
+    "CLEAR_DONE": "{{count}} check-ins deleted.",
+    "EXPORT": "Export report",
+    "EXPORTING": "Exporting\u2026",
+    "ACTIVE": "Active",
+    "NAME_PLACEHOLDER": "Child's name",
+    "ADD_TITLE": "Add a new child"
   },
   "SETTINGS": {
     "TITLE": "Settings",
