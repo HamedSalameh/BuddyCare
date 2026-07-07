@@ -1,0 +1,278 @@
+// -- Angular Material SCSS @use � MUST be first before any other rules ---------
+@use '@angular/material' as mat;
+
+// -- Tailwind CSS v4 (CSS-first, processed by PostCSS) -------------------------
+@import "tailwindcss";
+
+// -- BuddyCare Design Tokens (@theme for Tailwind v4) -------------------------
+@theme {
+  --color-brand-purple:        #7C4DFF;
+  --color-brand-purple-light:  #EDE7FF;
+  --color-brand-pink:          #FF6B9D;
+  --color-brand-pink-light:    #FFE4EF;
+  --color-brand-teal:          #00BCD4;
+  --color-brand-teal-light:    #E0F7FA;
+  --color-brand-orange:        #FF9800;
+  --color-brand-orange-light:  #FFF3E0;
+  --color-brand-green:         #66BB6A;
+  --color-brand-green-light:   #E8F5E9;
+  --color-brand-red:           #EF5350;
+  --color-brand-red-light:     #FFEBEE;
+  --color-brand-yellow:        #FFCA28;
+  --color-brand-yellow-light:  #FFFDE7;
+  --color-surface:             #FFFFFF;
+  --color-surface-soft:        #F8F7FF;
+  --color-surface-muted:       #F3F0FF;
+  --color-ink:                 #1A1A2E;
+  --color-ink-secondary:       #6B7280;
+  --color-ink-muted:           #9CA3AF;
+  --font-family-sans:          'Nunito', ui-sans-serif, system-ui, sans-serif;
+  --font-family-display:       'Nunito', ui-sans-serif, system-ui, sans-serif;
+  --radius-card:               1.25rem;
+  --radius-pill:               9999px;
+  --radius-2xl:                1rem;
+  --radius-3xl:                1.5rem;
+  --radius-4xl:                2rem;
+  --shadow-card:               0 4px 20px rgba(124, 77, 255, 0.08);
+  --shadow-card-md:            0 8px 32px rgba(124, 77, 255, 0.12);
+  --shadow-card-lg:            0 16px 48px rgba(124, 77, 255, 0.16);
+  --shadow-float:              0 -4px 20px rgba(0, 0, 0, 0.06);
+  --spacing-18:                4.5rem;
+  --spacing-22:                5.5rem;
+  --spacing-30:                7.5rem;
+  --spacing-safe-bottom:       env(safe-area-inset-bottom);
+  --spacing-safe-top:          env(safe-area-inset-top);
+  --min-h-touch:               44px;
+  --min-w-touch:               44px;
+  --animate-bounce-soft:       bounce-soft 2s ease-in-out infinite;
+  --animate-float:             float 3s ease-in-out infinite;
+  --animate-pop:               pop 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  --animate-slide-up:          slide-up 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+@keyframes bounce-soft {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+@keyframes pop {
+  0%   { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1);   opacity: 1; }
+}
+@keyframes slide-up {
+  0%   { transform: translateY(20px); opacity: 0; }
+  100% { transform: translateY(0);     opacity: 1; }
+}
+
+// -- CSS custom properties (used by SCSS components) ---------------------------
+:root {
+  --bc-purple:          #7C4DFF;
+  --bc-purple-light:    #EDE7FF;
+  --bc-pink:            #FF6B9D;
+  --bc-pink-light:      #FFE4EF;
+  --bc-teal:            #00BCD4;
+  --bc-teal-light:      #E0F7FA;
+  --bc-orange:          #FF9800;
+  --bc-orange-light:    #FFF3E0;
+  --bc-green:           #66BB6A;
+  --bc-green-light:     #E8F5E9;
+  --bc-red:             #EF5350;
+  --bc-red-light:       #FFEBEE;
+  --bc-yellow:          #FFCA28;
+  --bc-yellow-light:    #FFFDE7;
+  --bc-surface:         #FFFFFF;
+  --bc-surface-soft:    #F8F7FF;
+  --bc-surface-muted:   #F3F0FF;
+  --bc-ink:             #1A1A2E;
+  --bc-ink-secondary:   #6B7280;
+  --bc-ink-muted:       #9CA3AF;
+  --bc-radius-card:     1.25rem;
+  --bc-radius-pill:     9999px;
+  --bc-shadow-card:     0 4px 20px rgba(124, 77, 255, 0.08);
+  --bc-shadow-float:    0 -4px 20px rgba(0, 0, 0, 0.06);
+  --bc-duration-fast:   150ms;
+  --bc-duration-normal: 300ms;
+  --bc-duration-slow:   500ms;
+}
+
+// -- Angular Material M3 theme -------------------------------------------------
+html {
+  height: 100%;
+  @include mat.theme((
+    color: (
+      primary: mat.$violet-palette,
+      tertiary: mat.$cyan-palette,
+    ),
+    typography: Nunito,
+    density: 0,
+  ));
+}
+
+// -- Global base styles --------------------------------------------------------
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  color-scheme: light;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background-color: var(--bc-surface-soft);
+  color: var(--bc-ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding-top: env(safe-area-inset-top);
+}
+
+// ── Root app element ──────────────────────────────────────────────────────────
+app-root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 100dvh;
+}
+// -- Phone-frame layout on desktop (max 430px centered) ────────────────────────
+// All three shells (auth, child, parent) are constrained to phone width.
+bc-auth-shell,
+bc-child-shell,
+bc-parent-shell {
+  display: block;
+  width: 100%;
+}
+
+@media (min-width: 431px) {
+  app-root {
+    align-items: center;
+    background: #E8E0FF;
+  }
+
+  bc-child-shell > .child-shell,
+  bc-parent-shell > .parent-shell-wrapper {
+    max-width: 430px;
+    width: 100%;
+    box-shadow: 0 0 60px rgba(124, 77, 255, 0.12);
+  }
+}
+// -- Material Symbols (variable font) -----------------------------------------
+.material-symbols-rounded {
+  font-family: 'Material Symbols Rounded', sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  // IMPORTANT: keep direction ltr so ligatures render in RTL documents
+  direction: ltr !important;
+  unicode-bidi: isolate !important;
+  -webkit-font-feature-settings: 'liga' 1;
+  font-feature-settings: 'liga' 1;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+// -- Scrollbar -----------------------------------------------------------------
+::-webkit-scrollbar        { width: 4px; height: 4px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  { background: rgba(124, 77, 255, 0.2); border-radius: 2px; }
+
+// -- Reduced motion ------------------------------------------------------------
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// -- Focus visible -------------------------------------------------------------
+:focus-visible {
+  outline: 3px solid var(--bc-purple);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+// -- Global form controls (used across auth + settings pages) ------------------
+.bc-input {
+  width: 100%;
+  height: 52px;
+  padding: 0 1rem;
+  background: #fff;
+  border: 2px solid rgba(124, 77, 255, 0.15);
+  border-radius: 0.875rem;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--bc-ink);
+  outline: none;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+  -webkit-appearance: none;
+
+  &::placeholder { color: var(--bc-ink-muted); font-weight: 500; }
+
+  &:focus {
+    border-color: var(--bc-purple);
+    box-shadow: 0 0 0 3px rgba(124, 77, 255, 0.12);
+  }
+
+  &.bc-input--error {
+    border-color: var(--bc-red);
+    box-shadow: 0 0 0 3px rgba(239, 83, 80, 0.1);
+  }
+
+  &:disabled { opacity: 0.5; cursor: not-allowed; background: var(--bc-surface-muted); }
+}
+
+.bc-social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  height: 52px;
+  background: #fff;
+  border: 2px solid rgba(124, 77, 255, 0.15);
+  border-radius: 9999px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--bc-ink);
+  cursor: pointer;
+  transition: border-color 200ms ease, box-shadow 200ms ease, background 200ms ease;
+
+  &:hover:not(:disabled) {
+    border-color: var(--bc-purple);
+    box-shadow: 0 4px 12px rgba(124, 77, 255, 0.1);
+  }
+
+  &:disabled { opacity: 0.45; cursor: not-allowed; }
+
+  &--apple {
+    background: #000;
+    border-color: #000;
+    color: #fff;
+
+    &:hover:not(:disabled) {
+      background: #1a1a1a;
+      border-color: #1a1a1a;
+    }
+  }
+}
+
+// -- RTL support ---------------------------------------------------------------
+// Arabic font override
+:lang(ar) {
+  font-family: 'Nunito', 'Noto Sans Arabic', 'Cairo', sans-serif;
+  letter-spacing: 0;
+  word-spacing: 0.05em;
+}

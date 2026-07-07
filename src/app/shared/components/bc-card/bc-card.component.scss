@@ -1,0 +1,52 @@
+.bc-card {
+  transition: box-shadow var(--bc-duration-normal) ease,
+              transform var(--bc-duration-normal) ease;
+
+  // ── Variants ─────────────────────────────────────────────────────────────
+  &.bc-card--default {
+    box-shadow: var(--bc-shadow-card);
+  }
+
+  &.bc-card--soft {
+    background: var(--bc-surface-soft) !important;
+    box-shadow: none;
+  }
+
+  &.bc-card--outlined {
+    background: transparent !important;
+    border: 1.5px solid rgba(124, 77, 255, 0.15);
+    box-shadow: none;
+  }
+
+  &.bc-card--elevated {
+    box-shadow: 0 8px 32px rgba(124, 77, 255, 0.12);
+  }
+
+  // ── Padding ───────────────────────────────────────────────────────────────
+  &.bc-card--p-none { padding: 0; }
+  &.bc-card--p-sm   { padding: 0.75rem; }
+  &.bc-card--p-md   { padding: 1.25rem; }
+  &.bc-card--p-lg   { padding: 1.75rem; }
+
+  // ── Interactive (hoverable/clickable) ────────────────────────────────────
+  &.bc-card--interactive {
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 0 8px 32px rgba(124, 77, 255, 0.14);
+      transform: translateY(-2px);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: var(--bc-shadow-card);
+    }
+  }
+}
+
+// High-contrast mode
+@media (forced-colors: active) {
+  .bc-card {
+    border: 1px solid ButtonText;
+  }
+}

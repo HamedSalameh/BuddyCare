@@ -1,0 +1,69 @@
+// ── Size variants ─────────────────────────────────────────────────────────────
+.bc-mascot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &--sm .bc-mascot__figure--sm { width: 80px;  height: 88px; }
+  &--md .bc-mascot__figure--md { width: 140px; height: 154px; }
+  &--lg .bc-mascot__figure--lg { width: 180px; height: 198px; }
+  &--xl .bc-mascot__figure--xl { width: 220px; height: 242px; }
+}
+
+// ── Figure wrapper — must be position:relative to contain the absolute glow ───
+.bc-mascot__figure {
+  position: relative;
+  overflow: hidden;
+}
+
+// ── Glow circle — gives the white panda contrast on light backgrounds ──────────
+.bc-mascot__glow {
+  position: absolute;
+  inset: 5% 5% 15%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 40%, rgba(237,231,255,0.85) 0%, rgba(237,231,255,0.35) 60%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+  // NO border — a border renders as a visible ring through the transparent SVG
+}
+
+// ── Speech bubble ─────────────────────────────────────────────────────────────
+.bc-mascot__bubble {
+  position: relative;
+  margin-top: 0.625rem;
+  background: #ffffff;
+  border-radius: 1.25rem;
+  padding: 0.75rem 1.125rem;
+  box-shadow: 0 4px 20px rgba(124, 77, 255, 0.10);
+  max-width: 240px;
+  text-align: center;
+  border: 1.5px solid rgba(124, 77, 255, 0.08);
+}
+
+.bc-mascot__bubble-text {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #1A1A2E;
+  line-height: 1.4;
+}
+
+.bc-mascot__bubble-tail {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 12px solid #fff;
+  filter: drop-shadow(0 -1px 1px rgba(124, 77, 255, 0.06));
+}
+
+// ── Reduced motion: disable float animation ───────────────────────────────────
+@media (prefers-reduced-motion: reduce) {
+  .bc-mascot__figure {
+    animation: none !important;
+  }
+}

@@ -1,0 +1,232 @@
+{
+  "APP": {
+    "NAME": "BuddyCare",
+    "TAGLINE": "رفيقك الصحي، كل يوم"
+  },
+  "COMMON": {
+    "NEXT": "التالي",
+    "BACK": "رجوع",
+    "DONE": "تم",
+    "CANCEL": "إلغاء",
+    "SKIP": "تخطي",
+    "SAVE": "حفظ",
+    "DELETE": "حذف",
+    "EDIT": "تعديل",
+    "CLOSE": "إغلاق",
+    "LOADING": "جارٍ التحميل…",
+    "ERROR": "حدث خطأ. يرجى المحاولة مرة أخرى.",
+    "RETRY": "حاول مرة أخرى",
+    "OR": "أو",
+    "YES": "نعم",
+    "NO": "لا",
+    "PLAY": "تشغيل",
+    "STOP": "إيقاف",
+    "OFFLINE_BANNER": "أنت غير متصل — ستتزامن التغييرات عند عودة الاتصال."
+  },
+  "HOME": {
+    "GREETING": "مرحباً!",
+    "MASCOT_QUESTION": "كيف حال بطنك اليوم؟",
+    "START_CHECKIN": "ابدأ الفحص",
+    "NAV_HOME": "الرئيسية",
+    "NAV_HISTORY": "السجل",
+    "NAV_GARDEN": "الحديقة",
+    "NAV_AQUARIUM": "الأحواض",
+    "NAV_MORE": "المزيد",
+    "NAV_PARENT": "الوالدان"
+  },
+  "CHECK_IN": {
+    "PROGRESS": "{{current}} من {{total}}",
+    "STEP_BODY_AREA": "أين يؤلمك؟",
+    "STEP_PAIN_LEVEL": "كم يؤلمك؟",
+    "STEP_FEEL_TYPE": "كيف تشعر؟",
+    "STEP_ONSET": "متى بدأ؟",
+    "STEP_ACTIVITY": "ماذا كنت تفعل؟",
+    "STEP_MOOD": "كيف مزاجك؟",
+    "STEP_VOICE": "هل تريد إضافة ملاحظة صوتية؟ (اختياري)",
+    "COMPLETE_TITLE": "شكراً لك!",
+    "COMPLETE_MESSAGE": "ساعدتني في فهم بطنك!",
+    "DONT_KNOW": "لا أعرف",
+    "PAIN": {
+      "NO_PAIN": "لا ألم",
+      "TINY_ACHE": "وجع خفيف",
+      "HURTS_LITTLE": "يؤلم قليلاً",
+      "HURTS_LOT": "يؤلم كثيراً",
+      "REALLY_BAD": "سيء جداً"
+    },
+    "FEEL": {
+      "SHARP": "حاد",
+      "CRAMPY": "تقلصات",
+      "BURNING": "حرقة",
+      "PRESSURE": "ضغط",
+      "BLOATED": "انتفاخ",
+      "NAUSEA": "غثيان"
+    },
+    "ONSET": {
+      "JUST_NOW": "الآن",
+      "TODAY": "اليوم",
+      "YESTERDAY": "أمس",
+      "FEW_DAYS": "قبل أيام"
+    },
+    "ACTIVITY": {
+      "EATING": "الأكل",
+      "PLAYING": "اللعب",
+      "SCHOOL": "المدرسة",
+      "SLEEPING": "النوم",
+      "BATHROOM": "الحمام",
+      "TRAVELING": "السفر",
+      "NOTHING": "لا شيء"
+    },
+    "MOOD": {
+      "HAPPY": "سعيد",
+      "SAD": "حزين",
+      "ANGRY": "غاضب",
+      "SCARED": "خائف",
+      "TIRED": "متعب",
+      "EXCITED": "متحمس"
+    },
+    "VOICE": {
+      "RECORD": "تسجيل",
+      "STOP": "إيقاف",
+      "PLAY": "تشغيل",
+      "DELETE": "حذف",
+      "SKIP": "تخطي"
+    },
+    "BODY": {
+      "UPPER_BELLY": "أعلى البطن",
+      "LOWER_BELLY": "أسفل البطن",
+      "LEFT_SIDE": "الجانب الأيسر",
+      "RIGHT_SIDE": "الجانب الأيمن",
+      "AROUND_BELLY_BUTTON": "حول السرة"
+    }
+  },
+  "EMERGENCY": {
+    "TITLE": "هذا يبدو خطيراً",
+    "MESSAGE": "أخبر شخصاً بالغاً موثوقاً به الآن — أحد الوالدين أو المعلم أو الطبيب. لن تكون في أي مشكلة.",
+    "CALL_ADULT": "اطلب شخصاً كبيراً الآن"
+  },
+  "DASHBOARD": {
+    "TITLE": "لوحة تحكم الوالدين",
+    "THIS_WEEK": "ملخص هذا الأسبوع",
+    "VIEW_ALL": "عرض الكل",
+    "CHECK_INS": "الفحوصات",
+    "AVG_PAIN": "متوسط الألم",
+    "WORST_PAIN": "أشد ألم",
+    "PAIN_TREND": "اتجاه الألم (آخر 7 أيام)",
+    "COMMON_LOCATIONS": "أكثر المواقع شيوعاً",
+    "TRIGGERS": "المحفزات الشائعة",
+    "RECENT": "الأخيرة",
+    "LOADING": "جارٍ التحميل…",
+    "NAV_DASHBOARD": "لوحة التحكم",
+    "NAV_HISTORY": "السجل",
+    "NAV_REPORTS": "التقارير",
+    "NAV_CHILDREN": "الأطفال",
+    "NAV_SETTINGS": "الإعدادات",
+    "NAV_KID_VIEW": "وضع الطفل"
+  },
+  "ONBOARDING": {
+    "WELCOME_TITLE": "مرحباً بك في BuddyCare! 👋",
+    "WELCOME_SUB": "لنقم بإعداد حساب عائلتك. ما اسم عائلتك؟",
+    "FAMILY_NAME_LABEL": "اسم العائلة",
+    "FAMILY_NAME_PLACEHOLDER": "مثلاً: عائلة محمد",
+    "CONTINUE": "متابعة ←",
+    "ADD_CHILD_TITLE": "أضف طفلك الأول",
+    "ADD_CHILD_SUB": "اختر صورة رمزية وأدخل اسمه.",
+    "CHILD_PLACEHOLDER": "مثلاً: سارة",
+    "BACK": "رجوع",
+    "GET_STARTED": "ابدأ الآن!"
+  },
+  "REWARDS": {
+    "TITLE": "مكافآتي",
+    "MY_STICKERS": "ملصقاتي",
+    "DAY_STREAK": "يوم متتالي",
+    "GARDEN_TITLE": "حديقتي",
+    "AQUARIUM_TITLE": "حوض السمك",
+    "CHECK_INS_COUNT": "{{count}} فحص",
+    "NEXT_FISH": "{{count}} / {{total}} للسمكة التالية 🐟",
+    "NO_FISH_YET": "أضف أول سمكة بإتمام فحص!",
+    "PET_NAME": "حيوان BuddyCare",
+    "PET_HAPPINESS": "السعادة",
+    "STICKER": {
+      "FIRST":     "أول فحص!",
+      "FIVE":      "5 فحوصات",
+      "TEN":       "10 فحوصات",
+      "BRAVE":     "شجاع!",
+      "EXPLORER":  "مستكشف",
+      "CHAMPION":  "بطل",
+      "SUPERSTAR": "نجم",
+      "LEGEND":    "أسطورة"
+    }
+  },
+  "AUTH": {
+    "SIGN_IN": "تسجيل الدخول",
+    "SIGN_UP": "إنشاء حساب",
+    "SIGN_OUT": "تسجيل الخروج",
+    "EMAIL": "البريد الإلكتروني",
+    "PASSWORD": "كلمة المرور",
+    "CONFIRM_PASSWORD": "تأكيد كلمة المرور",
+    "FORGOT_PASSWORD": "نسيت كلمة المرور؟",
+    "CONTINUE_GOOGLE": "المتابعة مع Google",
+    "CONTINUE_APPLE": "المتابعة مع Apple",
+    "NO_ACCOUNT": "ليس لديك حساب؟",
+    "HAVE_ACCOUNT": "لديك حساب بالفعل؟",
+    "ERRORS": {
+      "INVALID_EMAIL": "يرجى إدخال بريد إلكتروني صحيح.",
+      "WRONG_PASSWORD": "كلمة المرور غير صحيحة.",
+      "EMAIL_IN_USE": "هذا البريد الإلكتروني مستخدم بالفعل.",
+      "WEAK_PASSWORD": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل.",
+      "NETWORK_ERROR": "خطأ في الشبكة. يرجى المحاولة مرة أخرى.",
+      "GENERIC": "فشل تسجيل الدخول. يرجى المحاولة مرة أخرى."
+    }
+  },
+  "CHILDREN": {
+    "ADD_CHILD": "إضافة طفل",
+    "CHILD_NAME": "اسم الطفل",
+    "CHILD_AGE": "العمر",
+    "SELECT_AVATAR": "اختر صورة رمزية",
+    "SWITCH_CHILD": "تبديل الطفل"
+  },
+  "SETTINGS": {
+    "TITLE": "الإعدادات",
+    "LANGUAGE": "اللغة",
+    "NOTIFICATIONS": "الإشعارات",
+    "REMINDER_TIME": "وقت التذكير اليومي",
+    "PRIVACY": "الخصوصية والبيانات",
+    "ABOUT": "حول BuddyCare",
+    "SIGN_OUT": "تسجيل الخروج"
+  },
+  "FEATURES": {
+    "PRIVATE": "خاص وآمن",
+    "PRIVATE_DESC": "بياناتك آمنة وخاصة دائماً.",
+    "OFFLINE": "يعمل بدون إنترنت",
+    "OFFLINE_DESC": "أضف فحوصات حتى بدون اتصال.",
+    "REMINDERS": "تذكيرات ذكية",
+    "REMINDERS_DESC": "تذكيرات ودية لإجراء الفحص.",
+    "REPORTS": "تقارير مفيدة",
+    "REPORTS_DESC": "افهم الأنماط وشاركها مع الأطباء.",
+    "FAMILIES": "مصنوع للعائلات",
+    "FAMILIES_DESC": "للأطفال والأشخاص الذين يهتمون بهم."
+  },
+  "REPORTS": {
+    "TITLE": "تقرير الصحة",
+    "RANGE_7": "7 أيام",
+    "RANGE_14": "14 يومًا",
+    "RANGE_30": "30 يومًا",
+    "TOTAL_CHECKINS": "فحوصات",
+    "AVG_PAIN": "متوسط الألم",
+    "WORST_PAIN": "أشد الألم",
+    "EMERGENCIES": "حالات طوارئ",
+    "PAIN_TREND": "مسار الألم",
+    "TOP_LOCATIONS": "أكثر المناطق ألمًا",
+    "TOP_TRIGGERS": "أبرز المحفزات",
+    "RECENT_CHECKINS": "آخر الفحوصات",
+    "EXPORT_PDF": "تصدير PDF",
+    "EXPORTING": "جاري إنشاء PDF…",
+    "NO_DATA": "لا توجد فحوصات في هذه الفترة.",
+    "PAIN_LABEL": "ألم",
+    "OF_CHECKINS": "من الفحوصات"
+  },
+  "LANGUAGE": {
+    "EN": "EN",
+    "AR": "عربية"
+  }
+}

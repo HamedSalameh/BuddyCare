@@ -1,0 +1,232 @@
+{
+  "APP": {
+    "NAME": "BuddyCare",
+    "TAGLINE": "Your health buddy, every day"
+  },
+  "COMMON": {
+    "NEXT": "Next",
+    "BACK": "Back",
+    "DONE": "Done",
+    "CANCEL": "Cancel",
+    "SKIP": "Skip",
+    "SAVE": "Save",
+    "DELETE": "Delete",
+    "EDIT": "Edit",
+    "CLOSE": "Close",
+    "LOADING": "Loading…",
+    "ERROR": "Something went wrong. Please try again.",
+    "RETRY": "Try again",
+    "OR": "or",
+    "YES": "Yes",
+    "NO": "No",
+    "PLAY": "Play",
+    "STOP": "Stop",
+    "OFFLINE_BANNER": "You're offline — changes will sync when you reconnect."
+  },
+  "HOME": {
+    "GREETING": "Hi there!",
+    "MASCOT_QUESTION": "How is your tummy today?",
+    "START_CHECKIN": "Start Check-in",
+    "NAV_HOME": "Home",
+    "NAV_HISTORY": "History",
+    "NAV_GARDEN": "Garden",
+    "NAV_AQUARIUM": "Aquarium",
+    "NAV_MORE": "More",
+    "NAV_PARENT": "Parent"
+  },
+  "CHECK_IN": {
+    "PROGRESS": "{{current}} of {{total}}",
+    "STEP_BODY_AREA": "Where does it hurt?",
+    "STEP_PAIN_LEVEL": "How much does it hurt?",
+    "STEP_FEEL_TYPE": "What does it feel like?",
+    "STEP_ONSET": "When did it start?",
+    "STEP_ACTIVITY": "What were you doing?",
+    "STEP_MOOD": "How are you feeling?",
+    "STEP_VOICE": "Would you like to add a voice note? (optional)",
+    "COMPLETE_TITLE": "Thank you!",
+    "COMPLETE_MESSAGE": "You helped me understand your tummy!",
+    "DONT_KNOW": "Don't know",
+    "PAIN": {
+      "NO_PAIN": "No pain",
+      "TINY_ACHE": "Tiny ache",
+      "HURTS_LITTLE": "Hurts a little",
+      "HURTS_LOT": "Hurts a lot",
+      "REALLY_BAD": "Really bad"
+    },
+    "FEEL": {
+      "SHARP": "Sharp",
+      "CRAMPY": "Crampy",
+      "BURNING": "Burning",
+      "PRESSURE": "Pressure",
+      "BLOATED": "Bloated",
+      "NAUSEA": "Nausea"
+    },
+    "ONSET": {
+      "JUST_NOW": "Just now",
+      "TODAY": "Today",
+      "YESTERDAY": "Yesterday",
+      "FEW_DAYS": "Few days ago"
+    },
+    "ACTIVITY": {
+      "EATING": "Eating",
+      "PLAYING": "Playing",
+      "SCHOOL": "School",
+      "SLEEPING": "Sleeping",
+      "BATHROOM": "Bathroom",
+      "TRAVELING": "Traveling",
+      "NOTHING": "Nothing"
+    },
+    "MOOD": {
+      "HAPPY": "Happy",
+      "SAD": "Sad",
+      "ANGRY": "Angry",
+      "SCARED": "Scared",
+      "TIRED": "Tired",
+      "EXCITED": "Excited"
+    },
+    "VOICE": {
+      "RECORD": "Record",
+      "STOP": "Stop",
+      "PLAY": "Play",
+      "DELETE": "Delete",
+      "SKIP": "Skip"
+    },
+    "BODY": {
+      "UPPER_BELLY": "Upper belly",
+      "LOWER_BELLY": "Lower belly",
+      "LEFT_SIDE": "Left side",
+      "RIGHT_SIDE": "Right side",
+      "AROUND_BELLY_BUTTON": "Around belly button"
+    }
+  },
+  "EMERGENCY": {
+    "TITLE": "This sounds serious",
+    "MESSAGE": "Please tell a trusted adult right away — a parent, teacher, or doctor. You are not in trouble.",
+    "CALL_ADULT": "Get a grown-up now"
+  },
+  "DASHBOARD": {
+    "TITLE": "Parent Dashboard",
+    "THIS_WEEK": "This Week Summary",
+    "VIEW_ALL": "View all",
+    "CHECK_INS": "Check-ins",
+    "AVG_PAIN": "Avg. Pain",
+    "WORST_PAIN": "Worst Pain",
+    "PAIN_TREND": "Pain Trend (Last 7 days)",
+    "COMMON_LOCATIONS": "Most Common Locations",
+    "TRIGGERS": "Common Triggers",
+    "RECENT": "Recent",
+    "LOADING": "Loading…",
+    "NAV_DASHBOARD": "Dashboard",
+    "NAV_HISTORY": "History",
+    "NAV_REPORTS": "Reports",
+    "NAV_CHILDREN": "Children",
+    "NAV_SETTINGS": "Settings",
+    "NAV_KID_VIEW": "Kid View"
+  },
+  "ONBOARDING": {
+    "WELCOME_TITLE": "Welcome to BuddyCare! 👋",
+    "WELCOME_SUB": "Let's set up your family account. What's your family name?",
+    "FAMILY_NAME_LABEL": "Family name",
+    "FAMILY_NAME_PLACEHOLDER": "e.g. The Smith Family",
+    "CONTINUE": "Continue →",
+    "ADD_CHILD_TITLE": "Add your first child",
+    "ADD_CHILD_SUB": "Pick an avatar and enter their name.",
+    "CHILD_PLACEHOLDER": "e.g. Sara",
+    "BACK": "Back",
+    "GET_STARTED": "Get started!"
+  },
+  "REWARDS": {
+    "TITLE": "My Rewards",
+    "MY_STICKERS": "My stickers",
+    "DAY_STREAK": "day streak",
+    "GARDEN_TITLE": "My Garden",
+    "AQUARIUM_TITLE": "My Aquarium",
+    "CHECK_INS_COUNT": "{{count}} check-ins",
+    "NEXT_FISH": "{{count}} / {{total}} to next fish 🐟",
+    "NO_FISH_YET": "Add your first fish by completing a check-in!",
+    "PET_NAME": "BuddyCare pet",
+    "PET_HAPPINESS": "Happiness",
+    "STICKER": {
+      "FIRST":     "First check-in!",
+      "FIVE":      "5 check-ins",
+      "TEN":       "10 check-ins",
+      "BRAVE":     "Brave!",
+      "EXPLORER":  "Explorer",
+      "CHAMPION":  "Champion",
+      "SUPERSTAR": "Superstar",
+      "LEGEND":    "Legend"
+    }
+  },
+  "AUTH": {
+    "SIGN_IN": "Sign In",
+    "SIGN_UP": "Sign Up",
+    "SIGN_OUT": "Sign Out",
+    "EMAIL": "Email address",
+    "PASSWORD": "Password",
+    "CONFIRM_PASSWORD": "Confirm password",
+    "FORGOT_PASSWORD": "Forgot password?",
+    "CONTINUE_GOOGLE": "Continue with Google",
+    "CONTINUE_APPLE": "Continue with Apple",
+    "NO_ACCOUNT": "Don't have an account?",
+    "HAVE_ACCOUNT": "Already have an account?",
+    "ERRORS": {
+      "INVALID_EMAIL": "Please enter a valid email address.",
+      "WRONG_PASSWORD": "Incorrect password.",
+      "EMAIL_IN_USE": "This email is already in use.",
+      "WEAK_PASSWORD": "Password must be at least 8 characters.",
+      "NETWORK_ERROR": "Network error. Please try again.",
+      "GENERIC": "Sign-in failed. Please try again."
+    }
+  },
+  "CHILDREN": {
+    "ADD_CHILD": "Add a child",
+    "CHILD_NAME": "Child's name",
+    "CHILD_AGE": "Age",
+    "SELECT_AVATAR": "Pick an avatar",
+    "SWITCH_CHILD": "Switch child"
+  },
+  "SETTINGS": {
+    "TITLE": "Settings",
+    "LANGUAGE": "Language",
+    "NOTIFICATIONS": "Notifications",
+    "REMINDER_TIME": "Daily reminder time",
+    "PRIVACY": "Privacy & Data",
+    "ABOUT": "About BuddyCare",
+    "SIGN_OUT": "Sign Out"
+  },
+  "FEATURES": {
+    "PRIVATE": "Private & Secure",
+    "PRIVATE_DESC": "Your data is safe and always private.",
+    "OFFLINE": "Works Offline",
+    "OFFLINE_DESC": "Add check-ins even without internet.",
+    "REMINDERS": "Smart Reminders",
+    "REMINDERS_DESC": "Friendly reminders to check in.",
+    "REPORTS": "Helpful Reports",
+    "REPORTS_DESC": "Understand patterns and share with doctors.",
+    "FAMILIES": "Made for Families",
+    "FAMILIES_DESC": "For kids, and the people who care for them."
+  },
+  "REPORTS": {
+    "TITLE": "Health Report",
+    "RANGE_7": "7 Days",
+    "RANGE_14": "14 Days",
+    "RANGE_30": "30 Days",
+    "TOTAL_CHECKINS": "Check-ins",
+    "AVG_PAIN": "Avg Pain",
+    "WORST_PAIN": "Worst Pain",
+    "EMERGENCIES": "Emergencies",
+    "PAIN_TREND": "Pain Trend",
+    "TOP_LOCATIONS": "Top Locations",
+    "TOP_TRIGGERS": "Top Triggers",
+    "RECENT_CHECKINS": "Recent Check-ins",
+    "EXPORT_PDF": "Export PDF",
+    "EXPORTING": "Generating PDF…",
+    "NO_DATA": "No check-ins in this period.",
+    "PAIN_LABEL": "Pain",
+    "OF_CHECKINS": "of check-ins"
+  },
+  "LANGUAGE": {
+    "EN": "EN",
+    "AR": "عربية"
+  }
+}

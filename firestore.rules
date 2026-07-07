@@ -1,0 +1,182 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helpers ──────────────────────────────────────────────────────────────
+
+    // Is the requesting user authenticated?
+    function isAuth() {
+      return request.auth != null;
+    }
+
+    // Is the requesting user a member of this family?
+    function isFamilyMember(familyId) {
+      return isAuth() &&
+        exists(/databases/$(database)/documents/families/$(familyId)/parents/$(request.auth.uid));
+    }
+
+    // Is the requesting user an admin of this family?
+    function isFamilyAdmin(familyId) {
+      return isAuth() &&
+        get(/databases/$(database)/documents/families/$(familyId)/parents/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // Validate a non-empty string field
+    function isNonEmptyString(value) {
+      return value is string && value.size() > 0;
+    }
+
+    // Validate that only allowed fields are present (prevent injection)
+    function hasOnlyFields(data, fields) {
+      return data.keys().hasOnly(fields);
+    }
+
+    // Timestamps must be server-generated or a Timestamp type
+    function isValidTimestamp(value) {
+      return value is timestamp;
+    }
+
+    // ── Families ─────────────────────────────────────────────────────────────
+    match /families/{familyId} {
+      // Any authenticated family member can read the family doc
+      allow read: if isFamilyMember(familyId);
+
+      // Only admins can create or update the family doc
+      allow create: if isAuth() &&
+        isNonEmptyString(request.resource.data.name) &&
+        request.resource.data.name.size() <= 100;
+
+      allow update: if isFamilyAdmin(familyId) &&
+        isNonEmptyString(request.resource.data.name) &&
+        request.resource.data.name.size() <= 100;
+
+      // Families cannot be deleted via client SDK
+      allow delete: if false;
+
+      // ── Parents subcollection ───────────────────────────────────────────
+      match /parents/{parentId} {
+        // Read: own document, or any family admin
+        allow read: if isAuth() &&
+          (request.auth.uid == parentId || isFamilyAdmin(familyId));
+
+        // Create: only the user themselves (on join / sign-up)
+        allow create: if isAuth() &&
+          request.auth.uid == parentId &&
+          isNonEmptyString(request.resource.data.displayName) &&
+          isNonEmptyString(request.resource.data.email);
+
+        // Update: only own record
+        allow update: if isAuth() && request.auth.uid == parentId;
+
+        // Delete: only admin can remove a member
+        allow delete: if isFamilyAdmin(familyId) && request.auth.uid != parentId;
+      }
+
+      // ── Children subcollection ──────────────────────────────────────────
+      match /children/{childId} {
+        allow read: if isFamilyMember(familyId);
+
+        allow create: if isFamilyMember(familyId) &&
+          isNonEmptyString(request.resource.data.name) &&
+          request.resource.data.name.size() <= 60 &&
+          request.resource.data.avatarId is int &&
+          request.resource.data.avatarId >= 1 &&
+          request.resource.data.avatarId <= 10;
+
+        allow update: if isFamilyMember(familyId) &&
+          // Cannot change familyId
+          request.resource.data.familyId == resource.data.familyId;
+
+        allow delete: if isFamilyAdmin(familyId);
+      }
+
+      // ── CheckIns subcollection ──────────────────────────────────────────
+      match /checkIns/{checkInId} {
+        allow read: if isFamilyMember(familyId);
+
+        allow create: if isFamilyMember(familyId) &&
+          isNonEmptyString(request.resource.data.childId) &&
+          request.resource.data.painLevel is int &&
+          request.resource.data.painLevel >= 0 &&
+          request.resource.data.painLevel <= 4 &&
+          request.resource.data.bodyLocations is list &&
+          request.resource.data.symptoms is list &&
+          // Prevent writing to another family's doc
+          request.resource.data.familyId == familyId;
+
+        allow update: if isFamilyMember(familyId) &&
+          // familyId and childId are immutable
+          request.resource.data.familyId == resource.data.familyId &&
+          request.resource.data.childId  == resource.data.childId;
+
+        allow delete: if isFamilyAdmin(familyId);
+      }
+
+      // ── VoiceNotes subcollection ────────────────────────────────────────
+      match /voiceNotes/{voiceNoteId} {
+        allow read:   if isFamilyMember(familyId);
+        allow create: if isFamilyMember(familyId) &&
+          request.resource.data.familyId == familyId;
+        allow update: if isFamilyMember(familyId);
+        allow delete: if isFamilyAdmin(familyId);
+      }
+
+      // ── Settings ────────────────────────────────────────────────────────
+      match /settings/{docId} {
+        allow read:   if isFamilyMember(familyId);
+        allow write:  if isFamilyAdmin(familyId);
+      }
+
+      // ── Notifications ───────────────────────────────────────────────────
+      match /notifications/{notifId} {
+        allow read:   if isFamilyMember(familyId);
+        // Notifications are written by Cloud Functions, not clients
+        allow write:  if false;
+      }
+
+      // ── AuditLogs — write-only for clients, read by admins ─────────────
+      match /auditLogs/{logId} {
+        allow read:   if isFamilyAdmin(familyId);
+        allow create: if isFamilyMember(familyId);
+        allow update, delete: if false;
+      }
+    }
+
+    // ── Global config collections (read-only to all authenticated users) ───
+    match /symptoms/{docId} {
+      allow read: if isAuth();
+      allow write: if false; // Cloud Functions only
+    }
+
+    match /activities/{docId} {
+      allow read: if isAuth();
+      allow write: if false;
+    }
+
+    match /bodyLocations/{docId} {
+      allow read: if isAuth();
+      allow write: if false;
+    }
+
+    match /moods/{docId} {
+      allow read: if isAuth();
+      allow write: if false;
+    }
+    // ── Users lookup collection ─────────────────────────────────────────────
+    // Stores { familyId, role } for each authenticated user.
+    // This avoids scanning the families collection on login.
+    match /users/{uid} {
+      // Users can only read/write their own lookup doc
+      allow read:   if isAuth() && request.auth.uid == uid;
+      allow create: if isAuth() && request.auth.uid == uid &&
+        isNonEmptyString(request.resource.data.familyId);
+      allow update: if isAuth() && request.auth.uid == uid;
+      allow delete: if false;
+    }
+    // ── Deny everything else ────────────────────────────────────────────────
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,153 @@
+<div class="dashboard">
+
+  <!-- ── Top bar ────────────────────────────────────────────────────────── -->
+  <div class="dashboard-topbar">
+    <div class="dashboard-topbar__left">
+      <span class="material-symbols-rounded topbar-menu" dir="ltr" aria-hidden="true">menu</span>
+      <h1 class="topbar-title">{{ 'DASHBOARD.TITLE' | translate }}</h1>
+    </div>
+    @if (activeChild()) {
+      <div class="topbar-child">
+        <div class="topbar-child__info">
+          <span class="topbar-child__name">{{ activeChild()!.name }}</span>
+          <span class="topbar-child__age">10 years old</span>
+        </div>
+        <bc-avatar [avatarId]="activeChild()!.avatarId" [name]="activeChild()!.name" size="md" />
+      </div>
+    }
+  </div>
+
+  @if (dash.loading()) {
+    <div class="dashboard-loading">
+      <p>{{ 'DASHBOARD.LOADING' | translate }}</p>
+    </div>
+  } @else {
+
+    <!-- ── Weekly summary cards ─────────────────────────────────────────── -->
+    <section class="dashboard-section">
+      <div class="section-header">
+        <h2 class="section-title">{{ 'DASHBOARD.THIS_WEEK' | translate }}</h2>
+        <a routerLink="/parent/history" class="section-link">{{ 'DASHBOARD.VIEW_ALL' | translate }}</a>
+      </div>
+
+      <div class="summary-cards">
+        <div class="summary-card">
+          <span class="summary-card__label">{{ 'DASHBOARD.CHECK_INS' | translate }}</span>
+          <span class="summary-card__value">{{ dash.weeklySummary().totalThisWeek }}</span>
+        </div>
+        <div class="summary-card">
+          <span class="summary-card__label">{{ 'DASHBOARD.AVG_PAIN' | translate }}</span>
+          <div class="summary-card__value-row">
+            <span class="summary-card__value">{{ dash.weeklySummary().avgPain }}</span>
+            <span class="summary-emoji">{{ painEmoji(dash.weeklySummary().avgPain) }}</span>
+          </div>
+        </div>
+        <div class="summary-card summary-card--accent">
+          <span class="summary-card__label">{{ 'DASHBOARD.WORST_PAIN' | translate }}</span>
+          <div class="summary-card__value-row">
+            <span class="summary-card__value">{{ dash.weeklySummary().worstPain }}</span>
+            <span class="summary-emoji">{{ dash.weeklySummary().worstEmoji }}</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Pain trend chart ─────────────────────────────────────────────── -->
+    <section class="dashboard-section">
+      <h2 class="section-title">{{ 'DASHBOARD.PAIN_TREND' | translate }}</h2>
+
+      <div class="chart-card">
+        <div class="bar-chart">
+          @for (day of dash.painTrend7Days(); track day.date) {
+            <div class="bar-col">
+              <div class="bar-wrapper">
+                <div
+                  class="bar"
+                  [style.height.%]="barHeight(day.avgPain)"
+                  [class.bar--has-data]="day.count > 0"
+                  [title]="day.label + ': ' + day.avgPain"
+                ></div>
+              </div>
+              <span class="bar-label">{{ day.label }}</span>
+            </div>
+          }
+        </div>
+        <!-- Y-axis labels -->
+        <div class="chart-y-axis" aria-hidden="true">
+          <span>10</span><span>8</span><span>6</span><span>4</span><span>2</span><span>0</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Most common locations ────────────────────────────────────────── -->
+    @if (dash.topLocations().length > 0) {
+      <section class="dashboard-section">
+        <h2 class="section-title">{{ 'DASHBOARD.COMMON_LOCATIONS' | translate }}</h2>
+        <div class="stat-card">
+          @for (loc of dash.topLocations(); track loc.id) {
+            <div class="stat-row">
+              <div class="stat-dot" [style.background-color]="loc.color"></div>
+              <span class="stat-label">{{ loc.label }}</span>
+              <span class="stat-percent">{{ loc.percent }}%</span>
+              <div class="stat-bar-track">
+                <div class="stat-bar-fill" [style.width.%]="loc.percent" [style.background-color]="loc.color"></div>
+              </div>
+            </div>
+          }
+        </div>
+      </section>
+    }
+
+    <!-- ── Common triggers ──────────────────────────────────────────────── -->
+    @if (dash.topTriggers().length > 0) {
+      <section class="dashboard-section">
+        <div class="section-header">
+          <h2 class="section-title">{{ 'DASHBOARD.TRIGGERS' | translate }}</h2>
+          <a routerLink="/parent/reports" class="section-link">{{ 'DASHBOARD.VIEW_ALL' | translate }}</a>
+        </div>
+        <div class="stat-card">
+          @for (trig of dash.topTriggers(); track trig.id) {
+            <div class="stat-row">
+              <span class="stat-emoji-icon">{{ trig.emoji }}</span>
+              <span class="stat-label">{{ trig.label }}</span>
+              <span class="stat-percent">{{ trig.percent }}%</span>
+              <div class="stat-bar-track">
+                <div class="stat-bar-fill" [style.width.%]="trig.percent" [style.background-color]="trig.color"></div>
+              </div>
+            </div>
+          }
+        </div>
+      </section>
+    }
+
+    <!-- ── Recent check-ins ─────────────────────────────────────────────── -->
+    @if (dash.recentCheckIns().length > 0) {
+      <section class="dashboard-section">
+        <div class="section-header">
+          <h2 class="section-title">{{ 'DASHBOARD.RECENT' | translate }}</h2>
+          <a routerLink="/parent/history" class="section-link">{{ 'DASHBOARD.VIEW_ALL' | translate }}</a>
+        </div>
+        <div class="checkin-list">
+          @for (ci of dash.recentCheckIns().slice(0, 5); track ci.id) {
+            <div class="checkin-item">
+              <span class="checkin-emoji">{{ PAIN_EMOJI[ci.painLevel] }}</span>
+              <div class="checkin-detail">
+                <span class="checkin-locations">{{ ci.bodyLocations.join(', ') | titlecase }}</span>
+                <span class="checkin-date">{{ ci.mood | titlecase }}</span>
+              </div>
+              <span class="checkin-pain-badge" [style.color]="ci.painLevel >= 3 ? '#EF5350' : '#7C4DFF'">
+                {{ ci.painLevel }}/4
+              </span>
+            </div>
+          }
+        </div>
+      </section>
+    } @else {
+      <div class="empty-state">
+        <span style="font-size:3rem">📋</span>
+        <p>No check-ins yet. Start by completing a check-in with your child.</p>
+      </div>
+    }
+
+  }
+</div>

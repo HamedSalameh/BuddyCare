@@ -1,0 +1,38 @@
+.bc-progress-track {
+  background-color: var(--bc-surface-muted);
+}
+
+.bc-progress-fill {
+  background: linear-gradient(90deg, #9B6DFF 0%, #7C4DFF 100%);
+}
+
+.bc-step-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--bc-surface-muted);
+  flex-shrink: 0;
+
+  &.bc-step-dot--done {
+    background-color: #9B6DFF;
+    width: 8px;
+    height: 8px;
+  }
+
+  &.bc-step-dot--active {
+    background-color: var(--bc-purple);
+    width: 10px;
+    height: 10px;
+    box-shadow: 0 0 0 3px rgba(124, 77, 255, 0.2);
+  }
+}
+
+// Reduced motion: disable fill animation
+@media (prefers-reduced-motion: reduce) {
+  .bc-progress-fill {
+    transition: none;
+  }
+
+  .bc-step-dot {
+    transition: none;
+  }
+}

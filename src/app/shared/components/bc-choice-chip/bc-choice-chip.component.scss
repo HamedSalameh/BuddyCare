@@ -1,0 +1,82 @@
+.bc-chip {
+  background: #fff;
+  border-color: rgba(124, 77, 255, 0.15);
+  color: var(--bc-ink);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  // Fill the host element (which fills the grid cell) for equal-height rows
+  width: 100%;
+  height: 100%;
+
+  // ── Sizes ────────────────────────────────────────────────────────────────
+  &.bc-chip--sm {
+    padding: 0.5rem 0.75rem;
+    min-width: 68px;
+    min-height: 68px;
+
+    .bc-chip__emoji  { font-size: 28px; line-height: 1; }
+    .bc-chip__label  { font-size: 0.6875rem; }
+  }
+
+  &.bc-chip--md {
+    padding: 0.75rem 0.5rem;
+    min-width: 88px;
+    min-height: 88px;
+
+    .bc-chip__emoji  { font-size: 40px; line-height: 1; }
+    .bc-chip__icon   { font-size: 36px; }
+    .bc-chip__label  { font-size: 0.6875rem; }
+  }
+
+  &.bc-chip--lg {
+    padding: 1rem 0.75rem;
+    min-width: 96px;
+    min-height: 110px;
+
+    // Guaranteed 64px emoji — no Tailwind dependency
+    .bc-chip__emoji  { font-size: 64px; line-height: 1; }
+    .bc-chip__icon   { font-size: 44px; }
+    .bc-chip__label  { font-size: 0.75rem; margin-top: 0.25rem; }
+  }
+
+  // ── States ────────────────────────────────────────────────────────────────
+  &:hover:not(.bc-chip--disabled):not(.bc-chip--selected) {
+    border-color: rgba(124, 77, 255, 0.4);
+    background: var(--bc-purple-light);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(124, 77, 255, 0.1);
+  }
+
+  &.bc-chip--selected {
+    border-color: var(--bc-purple);
+    background: var(--bc-purple-light);
+    color: var(--bc-purple);
+    box-shadow: 0 4px 16px rgba(124, 77, 255, 0.2);
+  }
+
+  &.bc-chip--disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  .bc-chip {
+    transition: none;
+    &:hover { transform: none; }
+  }
+}
+
+// High-contrast
+@media (forced-colors: active) {
+  .bc-chip {
+    border: 2px solid ButtonText;
+    &.bc-chip--selected { border: 3px solid Highlight; }
+  }
+}

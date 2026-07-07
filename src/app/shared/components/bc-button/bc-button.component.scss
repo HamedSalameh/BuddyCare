@@ -1,0 +1,117 @@
+.bc-button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+
+  &:disabled,
+  &.bc-btn--disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  // ── Sizes ────────────────────────────────────────────────────────────────
+  &.bc-btn--sm {
+    height: 36px;
+    min-width: 44px;
+    padding: 0 1rem;
+    font-size: 0.8125rem;
+
+    .material-symbols-rounded { font-size: 18px; }
+  }
+
+  &.bc-btn--md {
+    height: 48px;
+    min-width: 44px;
+    padding: 0 1.5rem;
+    font-size: 1rem;
+
+    .material-symbols-rounded { font-size: 20px; }
+  }
+
+  &.bc-btn--lg {
+    height: 56px;
+    min-width: 44px;
+    padding: 0 2rem;
+    font-size: 1.125rem;
+
+    .material-symbols-rounded { font-size: 22px; }
+  }
+
+  // ── Variants ─────────────────────────────────────────────────────────────
+  &.bc-btn--primary {
+    background: linear-gradient(135deg, #9B6DFF 0%, #7C4DFF 100%);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(124, 77, 255, 0.35);
+
+    &:hover:not(:disabled) {
+      background: linear-gradient(135deg, #A97DFF 0%, #8B5DFF 100%);
+      box-shadow: 0 6px 20px rgba(124, 77, 255, 0.45);
+      transform: translateY(-1px);
+    }
+
+    &:active:not(:disabled) {
+      box-shadow: 0 2px 8px rgba(124, 77, 255, 0.3);
+    }
+  }
+
+  &.bc-btn--secondary {
+    background: var(--bc-purple-light);
+    color: var(--bc-purple);
+    box-shadow: none;
+
+    &:hover:not(:disabled) {
+      background: #E5DCFF;
+    }
+  }
+
+  &.bc-btn--ghost {
+    background: transparent;
+    color: var(--bc-purple);
+    border: 2px solid var(--bc-purple);
+
+    &:hover:not(:disabled) {
+      background: var(--bc-purple-light);
+    }
+  }
+
+  &.bc-btn--danger {
+    background: linear-gradient(135deg, #FF7675 0%, #EF5350 100%);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(239, 83, 80, 0.3);
+
+    &:hover:not(:disabled) {
+      box-shadow: 0 6px 20px rgba(239, 83, 80, 0.4);
+      transform: translateY(-1px);
+    }
+  }
+
+  // ── Loading spinner ───────────────────────────────────────────────────────
+  &.bc-btn--loading {
+    pointer-events: none;
+  }
+}
+
+.bc-spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: bc-spin 0.7s linear infinite;
+}
+
+@keyframes bc-spin {
+  to { transform: rotate(360deg); }
+}
+
+// High-contrast mode
+@media (forced-colors: active) {
+  .bc-button.bc-btn--primary,
+  .bc-button.bc-btn--danger {
+    border: 2px solid ButtonText;
+  }
+}

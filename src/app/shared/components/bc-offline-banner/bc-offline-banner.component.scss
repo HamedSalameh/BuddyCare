@@ -1,0 +1,15 @@
+.bc-offline-banner {
+  background: linear-gradient(90deg, #FF9800 0%, #F57C00 100%);
+  box-shadow: 0 2px 8px rgba(255, 152, 0, 0.3);
+  width: 100%;
+  animation: slide-down 0.3s ease-out;
+}
+
+@keyframes slide-down {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bc-offline-banner { animation: none; }
+}

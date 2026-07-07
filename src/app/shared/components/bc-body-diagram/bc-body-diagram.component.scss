@@ -1,0 +1,160 @@
+.body-diagram {
+  position: relative;
+  width: 100%;
+  display: block;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.body-diagram__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 0.75rem;
+}
+
+// ── Dot on the body ───────────────────────────────────────────────────────────
+.bd-dot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:focus-visible {
+    outline: 3px solid var(--dot-color, #7C4DFF);
+    outline-offset: 2px;
+    border-radius: 50%;
+  }
+}
+
+.bd-dot__ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--dot-color, #7C4DFF);
+  opacity: 0.2;
+  animation: bd-pulse 2s ease-out infinite;
+  pointer-events: none;
+
+  .bd-dot--selected & {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+.bd-dot__core {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2.5px solid var(--dot-color, #7C4DFF);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 200ms ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+
+  .bd-dot--selected & {
+    background: var(--dot-color, #7C4DFF);
+    border-color: var(--dot-color, #7C4DFF);
+  }
+}
+
+.bd-dot__check {
+  font-size: 10px;
+  color: #fff;
+  line-height: 1;
+  font-weight: 800;
+}
+
+// ── Floating label badge ──────────────────────────────────────────────────────
+.bd-badge {
+  position: absolute;
+  transform: translateY(-50%);
+  border: none;
+  cursor: pointer;
+  background: #fff;
+  border: 1.5px solid var(--badge-color, #7C4DFF);
+  border-radius: 9999px;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.625rem;
+  font-weight: 700;
+  font-family: 'Nunito', sans-serif;
+  color: var(--bc-ink, #1A1A2E);
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: background 200ms ease, color 200ms ease;
+  line-height: 1.4;
+  max-width: 90px;
+
+  &--selected {
+    background: var(--badge-color, #7C4DFF);
+    color: #fff;
+    border-color: var(--badge-color, #7C4DFF);
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.18);
+  }
+
+  // Arrow pointer toward the dot
+  &::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+  }
+
+  // Arrow points LEFT (badge is to the right of dot)
+  &--arrow-left::after {
+    left: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-right: 7px solid var(--badge-color, #7C4DFF);
+  }
+  &--arrow-left.bd-badge--selected::after {
+    border-right-color: var(--badge-color, #7C4DFF);
+  }
+
+  // Arrow points RIGHT (badge is to the left of dot)
+  &--arrow-right::after {
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 7px solid var(--badge-color, #7C4DFF);
+  }
+
+  // Arrow points DOWN (badge is above dot)
+  &--arrow-bottom::after {
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 7px solid var(--badge-color, #7C4DFF);
+  }
+}
+
+// ── Pulse animation ───────────────────────────────────────────────────────────
+@keyframes bd-pulse {
+  0%   { transform: scale(0.6); opacity: 0.35; }
+  60%  { transform: scale(1.8); opacity: 0;    }
+  100% { transform: scale(0.6); opacity: 0;    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bd-dot__ring { animation: none; opacity: 0.15; }
+  .bd-dot__core { transition: none; }
+  .bd-badge     { transition: none; }
+}
+

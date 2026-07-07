@@ -1,0 +1,107 @@
+<div class="signin-page flex flex-col min-h-full px-6 py-10 gap-6">
+
+  <!-- Header -->
+  <div class="flex items-start justify-between">
+    <div>
+      <h1 class="text-2xl font-extrabold text-ink">{{ 'AUTH.SIGN_IN' | translate }}</h1>
+      <p class="text-sm text-ink-secondary mt-1">BuddyCare</p>
+    </div>
+    <bc-lang-switcher />
+  </div>
+
+  <!-- Error banner -->
+  @if (errorKey()) {
+    <div class="bg-brand-red-light rounded-card px-4 py-3 border border-brand-red/20"
+         role="alert" aria-live="assertive">
+      <p class="text-sm font-semibold text-brand-red">{{ errorKey() | translate }}</p>
+    </div>
+  }
+
+  <!-- Form -->
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col gap-4" novalidate>
+
+    <div class="flex flex-col gap-1.5">
+      <label class="text-sm font-bold text-ink-secondary" for="email">
+        {{ 'AUTH.EMAIL' | translate }}
+      </label>
+      <input
+        id="email"
+        type="email"
+        formControlName="email"
+        autocomplete="email"
+        class="bc-input"
+        [class.bc-input--error]="showError('email')"
+        [attr.aria-invalid]="showError('email') || null"
+        [attr.aria-describedby]="showError('email') ? 'email-err' : null"
+      />
+      @if (showError('email')) {
+        <p id="email-err" class="text-xs text-brand-red font-semibold" role="alert">
+          {{ 'AUTH.ERRORS.INVALID_EMAIL' | translate }}
+        </p>
+      }
+    </div>
+
+    <div class="flex flex-col gap-1.5">
+      <label class="text-sm font-bold text-ink-secondary" for="password">
+        {{ 'AUTH.PASSWORD' | translate }}
+      </label>
+      <input
+        id="password"
+        type="password"
+        formControlName="password"
+        autocomplete="current-password"
+        class="bc-input"
+        [class.bc-input--error]="showError('password')"
+        [attr.aria-invalid]="showError('password') || null"
+      />
+    </div>
+
+    <div class="flex justify-end -mt-1">
+      <a routerLink="/auth/forgot-password"
+         class="text-sm font-bold text-brand-purple hover:underline">
+        {{ 'AUTH.FORGOT_PASSWORD' | translate }}
+      </a>
+    </div>
+
+    <bc-button type="submit" variant="primary" size="lg" [fullWidth]="true" [loading]="loading()">
+      {{ 'AUTH.SIGN_IN' | translate }}
+    </bc-button>
+  </form>
+
+  <!-- Divider -->
+  <div class="flex items-center gap-3">
+    <div class="flex-1 h-px bg-surface-muted"></div>
+    <span class="text-xs font-bold text-ink-muted uppercase tracking-wide">{{ 'COMMON.OR' | translate }}</span>
+    <div class="flex-1 h-px bg-surface-muted"></div>
+  </div>
+
+  <!-- Social buttons -->
+  <div class="flex flex-col gap-3">
+    <button type="button" class="bc-social-btn" [disabled]="loading()" (click)="signInWithGoogle()">
+      <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
+        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+      </svg>
+      <span>{{ 'AUTH.CONTINUE_GOOGLE' | translate }}</span>
+    </button>
+
+    @if (appleAvailable) {
+      <button type="button" class="bc-social-btn bc-social-btn--apple" [disabled]="loading()" (click)="signInWithApple()">
+        <svg width="20" height="20" viewBox="0 0 814 1000" aria-hidden="true" fill="currentColor">
+          <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.4-155.5-127.4C46 537.6 55.5 421.7 55.5 357.5 55.5 155.2 199.7 54 341.1 54c63.3 0 116.1 42 156.8 42 39.5 0 101.1-44.2 174.8-44.2zm-181.8 26.7c-29.8 15.4-87.5 58.9-87.5 152.5 0 110.1 80.2 154.8 96.3 162.6-7.1 17.2-37.8 66.4-77.3 101.2-34.9 30.1-64.7 45-86.1 45s-56.1-30.1-100.3-30.1c-45.2 0-79.4 30.1-103.7 30.1-24.3 0-62.2-40.8-102.7-109.2-44.2-76-79.4-200.9-79.4-316.4C174.7 229.5 258 148 332.1 148c42.8 0 87.5 34.9 113.1 34.9 24.3 0 68.7-36.8 116.7-36.8 9 0 54.6 1.9 94.2 28.9z"/>
+        </svg>
+        <span>{{ 'AUTH.CONTINUE_APPLE' | translate }}</span>
+      </button>
+    }
+  </div>
+
+  <!-- Sign-up link -->
+  <p class="text-center text-sm text-ink-secondary mt-auto">
+    {{ 'AUTH.NO_ACCOUNT' | translate }}
+    <a routerLink="/auth/sign-up" class="font-bold text-brand-purple hover:underline ms-1">
+      {{ 'AUTH.SIGN_UP' | translate }}
+    </a>
+  </p>
+</div>

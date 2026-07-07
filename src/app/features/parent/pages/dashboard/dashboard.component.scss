@@ -1,0 +1,335 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  background: #F8F7FF;
+  padding-bottom: 1.5rem;
+}
+
+// ── Top bar ───────────────────────────────────────────────────────────────────
+.dashboard-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1rem 0.875rem;
+  background: #fff;
+  border-bottom: 1px solid rgba(124, 77, 255, 0.06);
+  box-shadow: 0 2px 8px rgba(124, 77, 255, 0.04);
+  flex-shrink: 0;
+}
+
+.dashboard-topbar__left {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.topbar-menu {
+  font-size: 1.375rem;
+  color: #7C4DFF;
+  cursor: pointer;
+}
+
+.topbar-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #1A1A2E;
+  margin: 0;
+}
+
+.topbar-child {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.topbar-child__info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0;
+}
+
+.topbar-child__name {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #1A1A2E;
+  line-height: 1.2;
+}
+
+.topbar-child__age {
+  font-size: 0.6875rem;
+  color: #9CA3AF;
+}
+
+// ── Loading ───────────────────────────────────────────────────────────────────
+.dashboard-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  color: #9CA3AF;
+  font-weight: 600;
+}
+
+// ── Sections ──────────────────────────────────────────────────────────────────
+.dashboard-section {
+  padding: 1rem 1rem 0;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.625rem;
+}
+
+.section-title {
+  font-size: 0.875rem;
+  font-weight: 800;
+  color: #1A1A2E;
+  margin: 0 0 0.625rem;
+}
+
+.section-link {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #7C4DFF;
+  text-decoration: none;
+
+  &:hover { text-decoration: underline; }
+}
+
+// ── Summary cards ─────────────────────────────────────────────────────────────
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.625rem;
+}
+
+.summary-card {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 0.75rem;
+  box-shadow: 0 2px 8px rgba(124, 77, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+
+  &--accent {
+    background: linear-gradient(135deg, #EDE7FF 0%, #F8F7FF 100%);
+    border: 1px solid rgba(124, 77, 255, 0.12);
+  }
+}
+
+.summary-card__label {
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: #9CA3AF;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.summary-card__value {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #1A1A2E;
+  line-height: 1;
+}
+
+.summary-card__value-row {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.summary-emoji { font-size: 1.25rem; }
+
+// ── Bar chart ─────────────────────────────────────────────────────────────────
+.chart-card {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(124, 77, 255, 0.06);
+  display: flex;
+  gap: 0.5rem;
+}
+
+.bar-chart {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: 0.375rem;
+  height: 120px;
+}
+
+.bar-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  gap: 0.25rem;
+}
+
+.bar-wrapper {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.bar {
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  background: rgba(124, 77, 255, 0.15);
+  min-height: 4px;
+  transition: height 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  &--has-data {
+    background: linear-gradient(180deg, #9B6DFF 0%, #7C4DFF 100%);
+  }
+}
+
+.bar-label {
+  font-size: 0.5625rem;
+  font-weight: 700;
+  color: #9CA3AF;
+  white-space: nowrap;
+}
+
+.chart-y-axis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 0.5625rem;
+  color: #9CA3AF;
+  padding-bottom: 1.25rem;
+  text-align: right;
+}
+
+// ── Stat rows ─────────────────────────────────────────────────────────────────
+.stat-card {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 0.875rem;
+  box-shadow: 0 2px 8px rgba(124, 77, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.stat-row {
+  display: grid;
+  grid-template-columns: 16px 1fr auto 80px;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stat-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.stat-emoji-icon { font-size: 0.875rem; }
+
+.stat-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #1A1A2E;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stat-percent {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #1A1A2E;
+  text-align: end;
+}
+
+.stat-bar-track {
+  height: 6px;
+  background: #F3F0FF;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.stat-bar-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+// ── Recent check-ins ──────────────────────────────────────────────────────────
+.checkin-list {
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(124, 77, 255, 0.06);
+  overflow: hidden;
+}
+
+.checkin-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0.875rem;
+  border-bottom: 1px solid rgba(124, 77, 255, 0.06);
+
+  &:last-child { border-bottom: none; }
+}
+
+.checkin-emoji { font-size: 1.5rem; flex-shrink: 0; }
+
+.checkin-detail {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow: hidden;
+}
+
+.checkin-locations {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #1A1A2E;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.checkin-date {
+  font-size: 0.625rem;
+  color: #9CA3AF;
+}
+
+.checkin-pain-badge {
+  font-size: 0.75rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+// ── Empty state ───────────────────────────────────────────────────────────────
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 3rem 1.5rem;
+  text-align: center;
+
+  p {
+    font-size: 0.875rem;
+    color: #9CA3AF;
+    font-weight: 600;
+    margin: 0;
+    max-width: 240px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar, .stat-bar-fill { transition: none; }
+}

@@ -1,0 +1,207 @@
+<!-- ── Celebration / Done screen ─────────────────────────────────────────────── -->
+@if (flow.done()) {
+
+  @if (flow.isEmergencyFlag()) {
+    <!-- Emergency state -->
+    <div class="checkin-page done-screen">
+      <div class="emergency-card">
+        <span class="done-emoji">🚨</span>
+        <h2 class="done-title" style="color:#EF5350">{{ 'EMERGENCY.TITLE' | translate }}</h2>
+        <p class="done-subtitle">{{ 'EMERGENCY.MESSAGE' | translate }}</p>
+        <bc-button variant="danger" size="lg" [fullWidth]="true" (clicked)="celebrate()">
+          {{ 'EMERGENCY.CALL_ADULT' | translate }}
+        </bc-button>
+      </div>
+    </div>
+
+  } @else {
+    <!-- Celebration screen -->
+    <div class="checkin-page done-screen celebration">
+      <div class="celebration-star">⭐</div>
+      <bc-mascot mood="celebrating" size="lg" [animated]="true" />
+      <div class="done-card">
+        <h2 class="done-title">{{ 'CHECK_IN.COMPLETE_TITLE' | translate }}</h2>
+        <p class="done-subtitle">{{ 'CHECK_IN.COMPLETE_MESSAGE' | translate }}</p>
+      </div>
+      <bc-button variant="primary" size="lg" [fullWidth]="true" (clicked)="celebrate()">
+        {{ 'COMMON.DONE' | translate }}
+      </bc-button>
+    </div>
+  }
+
+} @else {
+  <!-- ── Active check-in flow ───────────────────────────────────────────────── -->
+  <div class="checkin-page">
+
+    <!-- Header: back + progress -->
+    <div class="checkin-header">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem">
+        <button
+          type="button"
+          class="back-btn"
+          (click)="goBack()"
+          [attr.aria-label]="'COMMON.BACK' | translate"
+        >
+          <span class="back-arrow" aria-hidden="true"></span>
+        </button>
+        <span style="font-size:0.75rem;font-weight:700;color:#9CA3AF">
+          {{ 'CHECK_IN.PROGRESS' | translate: { current: flow.step(), total: totalSteps } }}
+        </span>
+      </div>
+      <bc-progress-bar [current]="flow.step()" [total]="totalSteps" />
+    </div>
+
+    <!-- Mascot + question (hidden on step 1 — body diagram is self-explanatory) -->
+    @if (flow.step() > 1) {
+      <div style="display:flex;justify-content:center;padding:0.5rem 1rem 0.25rem">
+        <bc-mascot
+          [mood]="mascotMoods()"
+          size="sm"
+          [message]="stepQuestionKey() | translate"
+          [animated]="false"
+        />
+      </div>
+    }
+
+    <!-- Step content -->
+    <div class="checkin-steps-area">
+
+      <!-- Step 1: Body diagram -->
+      @if (flow.step() === 1) {
+        <bc-body-diagram
+          [locations]="flow.bodyLocations()"
+          [selected]="flow.draft().bodyLocations"
+          (locationToggled)="flow.toggleBodyLocation($event)"
+        />
+      }
+
+      <!-- Step 2: Pain level -->
+      @if (flow.step() === 2) {
+        <div class="option-grid option-grid--3col">
+          @for (opt of flow.painOptions(); track opt.level) {
+            <bc-choice-chip
+              [value]="opt.level.toString()"
+              [label]="opt.labelKey | translate"
+              [emoji]="opt.emoji"
+              size="lg"
+              [selected]="flow.draft().painLevel === opt.level"
+              (chipSelected)="flow.setPainLevel(asPainLevel(+$event))"
+            />
+          }
+        </div>
+      }
+
+      <!-- Step 3: Feel type -->
+      @if (flow.step() === 3) {
+        <div class="option-grid option-grid--2col">
+          @for (ft of flow.feelTypes(); track ft.id) {
+            <bc-choice-chip
+              [value]="ft.id"
+              [label]="ft.labelKey | translate"
+              [emoji]="ft.emoji"
+              size="lg"
+              [selected]="flow.draft().feelTypes.includes(ft.id)"
+              (chipSelected)="flow.toggleFeelType($event)"
+            />
+          }
+        </div>
+      }
+
+      <!-- Step 4: Onset -->
+      @if (flow.step() === 4) {
+        <div class="option-grid option-grid--2col">
+          @for (o of flow.onsetOptions(); track o.id) {
+            <bc-choice-chip
+              [value]="o.id"
+              [label]="o.labelKey | translate"
+              [emoji]="o.emoji"
+              size="lg"
+              [selected]="flow.draft().onset === o.id"
+              (chipSelected)="flow.setOnset($event)"
+            />
+          }
+        </div>
+      }
+
+      <!-- Step 5: Activity -->
+      @if (flow.step() === 5) {
+        <div class="option-grid option-grid--3col">
+          @for (act of flow.activityOptions(); track act.id) {
+            <bc-choice-chip
+              [value]="act.id"
+              [label]="act.labelKey | translate"
+              [emoji]="act.emoji"
+              size="lg"
+              [selected]="flow.draft().activities.includes(act.id)"
+              (chipSelected)="flow.toggleActivity($event)"
+            />
+          }
+        </div>
+      }
+
+      <!-- Step 6: Mood -->
+      @if (flow.step() === 6) {
+        <div class="option-grid option-grid--3col">
+          @for (m of flow.moodOptions(); track m.id) {
+            <bc-choice-chip
+              [value]="m.id"
+              [label]="m.labelKey | translate"
+              [emoji]="m.emoji"
+              size="lg"
+              [selected]="flow.draft().mood === m.id"
+              (chipSelected)="flow.setMood($event)"
+            />
+          }
+        </div>
+      }
+
+      <!-- Step 7: Voice note (optional) -->
+      @if (flow.step() === 7) {
+        <div class="voice-step">
+          <div class="voice-record-btn">
+            <span class="material-symbols-rounded" dir="ltr" style="font-size:2.5rem;color:#fff;font-variation-settings:'FILL' 1">mic</span>
+          </div>
+          <p style="font-size:0.75rem;color:#9CA3AF;margin:0">00:00</p>
+          <bc-button variant="ghost" size="md" (clicked)="finish()">
+            {{ 'CHECK_IN.VOICE.SKIP' | translate }}
+          </bc-button>
+        </div>
+      }
+    </div>
+
+    <!-- Footer: Back + Next buttons -->
+    <div class="checkin-footer">
+      <bc-button
+        variant="ghost"
+        size="md"
+        [fullWidth]="true"
+        (clicked)="goBack()"
+        [disabled]="flow.step() === 1"
+      >
+        {{ 'COMMON.BACK' | translate }}
+      </bc-button>
+
+      @if (flow.step() < totalSteps) {
+        <bc-button
+          variant="primary"
+          size="md"
+          [fullWidth]="true"
+          [disabled]="!flow.canProceed()"
+          (clicked)="flow.next()"
+        >
+          {{ 'COMMON.NEXT' | translate }}
+        </bc-button>
+      } @else {
+        <bc-button
+          variant="primary"
+          size="md"
+          [fullWidth]="true"
+          (clicked)="finish()"
+        >
+          {{ 'COMMON.DONE' | translate }}
+        </bc-button>
+      }
+    </div>
+
+  </div>
+}

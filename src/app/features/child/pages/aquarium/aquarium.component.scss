@@ -1,0 +1,205 @@
+.aquarium-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 1.25rem 1rem;
+  background: linear-gradient(160deg, #E3F2FD 0%, #F8FFFE 50%, #E0F7FA 100%);
+  gap: 1rem;
+}
+
+.aquarium-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.aquarium-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0277BD;
+  margin: 0;
+}
+
+.fish-count {
+  background: #fff;
+  border: 2px solid #29B6F6;
+  border-radius: 9999px;
+  padding: 0.25rem 0.875rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #0277BD;
+}
+
+// ── Tank ──────────────────────────────────────────────────────────────────────
+.aquarium-tank {
+  border-radius: 1.25rem;
+  border: 3px solid rgba(3, 169, 244, 0.25);
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(3, 169, 244, 0.12), inset 0 0 40px rgba(255,255,255,0.3);
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: background-color 600ms ease;
+}
+
+.tank-surface {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem 0;
+  letter-spacing: -2px;
+  opacity: 0.7;
+}
+
+.tank-fish-area {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  gap: 0.75rem;
+}
+
+.tank-fish {
+  font-size: 2.25rem;
+  animation: swim 4s ease-in-out infinite;
+  display: inline-block;
+
+  &--flip {
+    transform: scaleX(-1);
+    animation: swim-left 5s ease-in-out infinite;
+  }
+}
+
+.tank-empty {
+  font-size: 0.8125rem;
+  color: rgba(3, 169, 244, 0.6);
+  text-align: center;
+  padding: 1rem;
+  font-weight: 600;
+  font-style: italic;
+  margin: 0;
+}
+
+.tank-sand {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  padding: 0.375rem 0.5rem;
+  background: rgba(255, 243, 224, 0.5);
+  font-size: 1.25rem;
+}
+
+// Bubbles
+.bubble {
+  position: absolute;
+  font-size: 0.75rem;
+  opacity: 0.6;
+  animation: float-up 3s ease-in infinite;
+
+  &--1 { left: 15%; animation-delay: 0s; }
+  &--2 { left: 50%; animation-delay: 1.2s; }
+  &--3 { left: 80%; animation-delay: 2.4s; }
+}
+
+@keyframes swim {
+  0%, 100% { transform: translateX(-8px) translateY(3px); }
+  50%       { transform: translateX(8px) translateY(-3px); }
+}
+
+@keyframes swim-left {
+  0%, 100% { transform: scaleX(-1) translateX(-6px); }
+  50%       { transform: scaleX(-1) translateX(6px); }
+}
+
+@keyframes float-up {
+  0%   { transform: translateY(100%); opacity: 0.5; }
+  100% { transform: translateY(-200%); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tank-fish, .bubble { animation: none; }
+  .tank-fish--flip { transform: scaleX(-1); }
+}
+
+// ── Tank info ──────────────────────────────────────────────────────────────────
+.tank-info {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 0.875rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tank-stage-label {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #0277BD;
+  margin: 0;
+  text-align: center;
+}
+
+.tank-progress-track {
+  height: 10px;
+  background: #E3F2FD;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.tank-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #29B6F6, #0277BD);
+  border-radius: 9999px;
+  transition: width 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.tank-progress-text {
+  font-size: 0.75rem;
+  color: #6B7280;
+  margin: 0;
+  text-align: center;
+}
+
+// ── Pet happiness ─────────────────────────────────────────────────────────────
+.pet-section {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 0.875rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.pet-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.pet-emoji { font-size: 2rem; }
+
+.pet-text {
+  flex: 1;
+  p { margin: 0; }
+}
+
+.pet-name          { font-size: 0.875rem; font-weight: 800; color: #1A1A2E; }
+.pet-happiness-label { font-size: 0.75rem; color: #6B7280; }
+.pet-value         { font-size: 1rem; font-weight: 900; color: #FF9800; }
+
+.happiness-track {
+  height: 10px;
+  background: #FFF3E0;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.happiness-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #FFB74D, #FF9800);
+  border-radius: 9999px;
+  transition: width 600ms ease;
+}
