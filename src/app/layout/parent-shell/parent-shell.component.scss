@@ -2,6 +2,7 @@
   display: flex;
   justify-content: center;
   width: 100%;
+  height: 100%;   // must fill shell element so wrapper's 100dvh has a reference
 }
 
 .parent-shell-wrapper {
