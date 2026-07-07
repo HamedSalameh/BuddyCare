@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { where, orderBy, limit, query, writeBatch, getDocsFromServer, Timestamp } from 'firebase/firestore';
+import { where, orderBy, limit, query, doc, writeBatch, getDocsFromServer, Timestamp } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 import { FirestoreRepository } from '@core/firestore/firestore.repository';
 import { CheckIn } from '@core/models/check-in.model';
@@ -77,6 +77,30 @@ export class CheckInRepository extends FirestoreRepository<CheckIn> {
    */
   markSynced(familyId: string, checkInId: string): Promise<void> {
     return this.update(familyId, checkInId, { syncState: 'synced' } as any);
+  }
+
+  /** Fetch ALL check-ins for a family (all children) — used for full backup. */
+  async listAllForFamily(familyId: string): Promise<CheckIn[]> {
+    const snap = await getDocsFromServer(this.colRef(familyId));
+    return snap.docs
+      .map(d => ({ id: d.id, ...(d.data() as Record<string, unknown>) }) as unknown as CheckIn)
+      .sort((a, b) => (a.timestamp?.seconds ?? 0) - (b.timestamp?.seconds ?? 0));
+  }
+
+  /**
+   * Batch-write check-ins using their original IDs (setDoc).
+   * Idempotent: re-importing the same backup won't create duplicates.
+   */
+  async importCheckIns(familyId: string, checkIns: CheckIn[]): Promise<number> {
+    for (let i = 0; i < checkIns.length; i += 500) {
+      const batch = writeBatch(this.db);
+      checkIns.slice(i, i + 500).forEach(ci => {
+        const { id, ...data } = ci;
+        batch.set(doc(this.colRef(familyId), id), { ...data, familyId });
+      });
+      await batch.commit();
+    }
+    return checkIns.length;
   }
 
   /** Delete every check-in for a child. Returns the number of deleted docs. */
