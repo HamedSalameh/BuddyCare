@@ -1,8 +1,27 @@
 import {
   ApplicationConfig,
-  provideBrowserGlobalErrorListeners,
+  ErrorHandler,
+  Injectable,
   isDevMode,
+  provideBrowserGlobalErrorListeners,
 } from '@angular/core';
+
+// ── Global error handler ───────────────────────────────────────────────────────
+// Catches all unhandled Angular errors. In production it suppresses noisy
+// framework-internal errors and logs everything else to the console.
+// Wire to Firebase Crashlytics / Analytics here when ready.
+@Injectable()
+class BcErrorHandler implements ErrorHandler {
+  handleError(error: unknown): void {
+    const msg = String(error);
+    if (!isDevMode()) {
+      if (msg.includes('ExpressionChangedAfterItHasBeenCheckedError')) return;
+      if (msg.includes('NG0100')) return; // same error, NG code form
+    }
+    console.error('[BuddyCare]', error);
+  }
+}
+
 import {
   provideRouter,
   withPreloading,
@@ -37,6 +56,7 @@ import { FirebaseApp } from 'firebase/app';
 export const appConfig: ApplicationConfig = {
   providers: [
     // ── Core ────────────────────────────────────────────────────────────────
+    { provide: ErrorHandler, useClass: BcErrorHandler },
     provideBrowserGlobalErrorListeners(),
     provideAnimationsAsync(),
     provideHttpClient(withInterceptorsFromDi()),

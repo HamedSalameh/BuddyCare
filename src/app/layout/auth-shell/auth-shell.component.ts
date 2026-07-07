@@ -13,8 +13,15 @@ import { RouterOutlet } from '@angular/router';
     </div>
   `,
   styles: [`
+    :host {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;                   /* auth pages scroll independently */
+      -webkit-overflow-scrolling: touch;
+    }
     .auth-shell-outer {
-      min-height: 100dvh;
+      min-height: 100%;
       background: linear-gradient(135deg, #EDE7FF 0%, #F8F7FF 50%, #E0F7FA 100%);
       display: flex;
       align-items: flex-start;
@@ -24,7 +31,7 @@ import { RouterOutlet } from '@angular/router';
     .auth-shell-inner {
       width: 100%;
       max-width: 430px;
-      min-height: 100dvh;
+      min-height: 100%;
       background: linear-gradient(135deg, #EDE7FF 0%, #F8F7FF 50%, #E0F7FA 100%);
       display: flex;
       flex-direction: column;
