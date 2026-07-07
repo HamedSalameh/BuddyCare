@@ -12,7 +12,15 @@
   width: 100%;
   max-width: 430px;
 
-  > main { flex: 1; }
+  // flex-1 + overflow-y MUST live here — Tailwind utilities are unreliable in
+  // Angular 22 component templates and were silently ignored on Android.
+  > main {
+    flex: 1;
+    min-height: 0;          // required for flex overflow to work
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 .child-bottom-nav {

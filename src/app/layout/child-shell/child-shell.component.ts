@@ -19,7 +19,7 @@ interface ChildNavItem {
       <bc-offline-banner />
 
       <!-- Main scrollable content -->
-      <main class="flex-1 overflow-y-auto overscroll-contain" role="main">
+      <main role="main">
         <router-outlet />
       </main>
 

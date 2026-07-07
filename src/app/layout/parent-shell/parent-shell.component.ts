@@ -16,7 +16,7 @@ interface ParentNavItem {
   template: `
     <div class="parent-shell-wrapper" style="height:100dvh">
       <!-- Main scrollable content -->
-      <main class="flex-1 overflow-y-auto overscroll-contain" role="main">
+      <main role="main">
         <router-outlet />
       </main>
 
