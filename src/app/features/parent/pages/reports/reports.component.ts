@@ -8,11 +8,12 @@ import {
   ViewChild,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { DatePipe, DecimalPipe, TitleCasePipe } from '@angular/common';
-import { TranslatePipe } from '@ngx-translate/core';
+import { DatePipe, DecimalPipe } from '@angular/common';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { AuthService } from '@core/auth/auth.service';
 import { DashboardService } from '../../services/dashboard.service';
 import { CheckIn, PAIN_EMOJI, PainLevel } from '@core/models/check-in.model';
+import { BODY_LOCATIONS, FEEL_TYPES } from '@core/symptom-engine/symptom-config';
 
 type Range = 7 | 14 | 30;
 
@@ -28,7 +29,7 @@ const TRIG_EMOJI: Record<string, string> = {
 @Component({
   selector: 'bc-parent-reports',
   standalone: true,
-  imports: [TranslatePipe, DatePipe, DecimalPipe, TitleCasePipe],
+  imports: [TranslatePipe, DatePipe, DecimalPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="rp-page">
@@ -104,7 +105,7 @@ const TRIG_EMOJI: Record<string, string> = {
               <h2 class="rp-section-title">{{ 'REPORTS.TOP_LOCATIONS' | translate }}</h2>
               @for (s of topLocations(); track s.label) {
                 <div class="rp-bar-row">
-                  <span class="rp-bar-name">{{ s.label | titlecase }}</span>
+                  <span class="rp-bar-name">{{ s.label }}</span>
                   <div class="rp-bar-track">
                     <div class="rp-bar-fill" [style.width.%]="s.percent" [style.background]="s.color"></div>
                   </div>
@@ -120,7 +121,7 @@ const TRIG_EMOJI: Record<string, string> = {
               <h2 class="rp-section-title">{{ 'REPORTS.TOP_TRIGGERS' | translate }}</h2>
               @for (s of topTriggers(); track s.label) {
                 <div class="rp-bar-row">
-                  <span class="rp-bar-name">{{ s.emoji }} {{ s.label | titlecase }}</span>
+                  <span class="rp-bar-name">{{ s.emoji }} {{ s.label }}</span>
                   <div class="rp-bar-track">
                     <div class="rp-bar-fill" [style.width.%]="s.percent" [style.background]="s.color"></div>
                   </div>
@@ -137,7 +138,7 @@ const TRIG_EMOJI: Record<string, string> = {
               <div class="rp-ci-row">
                 <span class="rp-ci-emoji">{{ painEmoji(ci.painLevel) }}</span>
                 <div class="rp-ci-meta">
-                  <span class="rp-ci-locs">{{ ci.bodyLocations.join(', ') | titlecase }}</span>
+                  <span class="rp-ci-locs">{{ ci.bodyLocations.map(id => locationLabel(id)).join(', ') }}</span>
                   <span class="rp-ci-date">{{ ciDate(ci) | date:'MMM d, y · h:mm a' }}</span>
                 </div>
                 @if (ci.emergencyFlag) {
@@ -218,7 +219,8 @@ const TRIG_EMOJI: Record<string, string> = {
 export class ReportsComponent implements OnInit {
   @ViewChild('reportEl') reportEl!: ElementRef<HTMLDivElement>;
 
-  private readonly auth = inject(AuthService);
+  private readonly auth      = inject(AuthService);
+  private readonly translate = inject(TranslateService);
   readonly dash = inject(DashboardService);
 
   readonly ranges: Range[] = [7, 14, 30];
@@ -275,7 +277,7 @@ export class ReportsComponent implements OnInit {
     this.filtered().forEach(c => c.bodyLocations.forEach(l => map.set(l, (map.get(l) ?? 0) + 1)));
     const total = [...map.values()].reduce((a, b) => a + b, 0) || 1;
     return [...map.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5).map(([id, count], i) => ({
-      label:   id.replace(/_/g, ' '),
+      label:   this.locationLabel(id),
       value:   count,
       percent: Math.round((count / total) * 100),
       color:   LOC_COLORS[i % LOC_COLORS.length],
@@ -287,7 +289,7 @@ export class ReportsComponent implements OnInit {
     this.filtered().forEach(c => c.activities.forEach(a => map.set(a, (map.get(a) ?? 0) + 1)));
     const total = [...map.values()].reduce((a, b) => a + b, 0) || 1;
     return [...map.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5).map(([id, count], i) => ({
-      label:   id.replace(/_/g, ' '),
+      label:   this.activityLabel(id),
       emoji:   TRIG_EMOJI[id] ?? '❓',
       value:   count,
       percent: Math.round((count / total) * 100),
@@ -333,6 +335,20 @@ export class ReportsComponent implements OnInit {
 
   ciDate(ci: CheckIn): Date {
     return ci.timestamp?.toDate ? ci.timestamp.toDate() : new Date(ci.timestamp);
+  }
+
+  /** Translated location label for use in template and CSV. */
+  locationLabel(id: string): string {
+    const loc = BODY_LOCATIONS.find(l => l.id === id);
+    return loc ? this.translate.instant(loc.labelKey)
+               : id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  }
+
+  /** Translated activity/trigger label. */
+  activityLabel(id: string): string {
+    const feel = FEEL_TYPES.find(f => f.id === id);
+    return feel ? this.translate.instant(feel.labelKey)
+                : id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
   }
 
   // ─── PDF export ───────────────────────────────────────────────────────────

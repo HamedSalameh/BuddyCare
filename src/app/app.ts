@@ -13,11 +13,23 @@ export class AppUpdateService {
 
   constructor() {
     if (!this.sw?.isEnabled) return;
+
     this.sw.versionUpdates
       .pipe(filter((e): e is VersionReadyEvent => e.type === 'VERSION_READY'))
       .subscribe(() => this.updateAvailable.set(true));
-    // Poll every 30 minutes for a new version
+
+    // Check immediately on init
+    this.sw.checkForUpdate().catch(() => {});
+
+    // Re-check every 30 minutes
     interval(30 * 60 * 1000).subscribe(() => this.sw?.checkForUpdate().catch(() => {}));
+
+    // Re-check when user returns to the tab
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        this.sw?.checkForUpdate().catch(() => {});
+      }
+    });
   }
 
   reload(): void {

@@ -1,8 +1,10 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { CheckInRepository } from '@core/firestore/check-in.repository';
 import { CheckIn, PainLevel, PAIN_EMOJI } from '@core/models/check-in.model';
 import { Child } from '@core/models/user.model';
 import { LoggerService } from '@core/logging/logger.service';
+import { BODY_LOCATIONS, FEEL_TYPES } from '@core/symptom-engine/symptom-config';
 
 export interface DayStat {
   date:     string;   // YYYY-MM-DD
@@ -27,8 +29,9 @@ const TRIG_COLORS = ['#FF9800','#7C4DFF','#00BCD4','#66BB6A','#FF6B9D'];
 
 @Injectable({ providedIn: 'root' })
 export class DashboardService {
-  private readonly repo   = inject(CheckInRepository);
-  private readonly logger = inject(LoggerService);
+  private readonly repo      = inject(CheckInRepository);
+  private readonly logger    = inject(LoggerService);
+  private readonly translate = inject(TranslateService);
 
   private readonly _checkIns  = signal<CheckIn[]>([]);
   private readonly _loading   = signal(false);
@@ -147,6 +150,12 @@ export class DashboardService {
   }
 
   private formatLabel(id: string): string {
+    // Use the registered i18n label key if the id matches a known location or feel type
+    const loc  = BODY_LOCATIONS.find(l => l.id === id);
+    if (loc)  return this.translate.instant(loc.labelKey);
+    const feel = FEEL_TYPES.find(f => f.id === id);
+    if (feel) return this.translate.instant(feel.labelKey);
+    // Fallback: humanise the snake_case id
     return id.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
   }
 }

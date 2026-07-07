@@ -1,10 +1,11 @@
 import { Component, inject, OnInit, computed, signal, ChangeDetectionStrategy } from '@angular/core';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { DatePipe } from '@angular/common';
 import { AuthService } from '@core/auth/auth.service';
 import { DashboardService } from '../../services/dashboard.service';
 import { CheckIn } from '@core/models/check-in.model';
 import { PAIN_EMOJI } from '@core/models/check-in.model';
+import { BODY_LOCATIONS } from '@core/symptom-engine/symptom-config';
 
 @Component({
   selector: 'bc-parent-history',
@@ -75,6 +76,7 @@ import { PAIN_EMOJI } from '@core/models/check-in.model';
   styleUrls: ['./history.component.scss'],
 })
 export class ParentHistoryComponent implements OnInit {
+  private readonly translate = inject(TranslateService);
   readonly dash = inject(DashboardService);
   readonly auth = inject(AuthService);
   readonly PAIN_EMOJI = PAIN_EMOJI;
@@ -99,7 +101,10 @@ export class ParentHistoryComponent implements OnInit {
   });
 
   formatLocations(locs: string[]): string {
-    return locs.map(l => l.replace(/_/g, ' ')).join(', ') || 'Unknown area';
+    return locs.map(id => {
+      const loc = BODY_LOCATIONS.find(l => l.id === id);
+      return loc ? this.translate.instant(loc.labelKey) : id.replace(/_/g, ' ');
+    }).join(', ') || 'Unknown area';
   }
 
   getTime(timestamp: any): string {

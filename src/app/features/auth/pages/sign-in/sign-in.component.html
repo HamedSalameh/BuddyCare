@@ -1,29 +1,26 @@
-<div class="signin-page flex flex-col min-h-full px-6 py-10 gap-6">
+<div class="signin-page">
 
   <!-- Header -->
-  <div class="flex items-start justify-between">
+  <div class="si-header">
     <div>
-      <h1 class="text-2xl font-extrabold text-ink">{{ 'AUTH.SIGN_IN' | translate }}</h1>
-      <p class="text-sm text-ink-secondary mt-1">BuddyCare</p>
+      <h1 class="si-title">{{ 'AUTH.SIGN_IN' | translate }}</h1>
+      <p class="si-subtitle">BuddyCare</p>
     </div>
     <bc-lang-switcher />
   </div>
 
   <!-- Error banner -->
   @if (errorKey()) {
-    <div class="bg-brand-red-light rounded-card px-4 py-3 border border-brand-red/20"
-         role="alert" aria-live="assertive">
-      <p class="text-sm font-semibold text-brand-red">{{ errorKey() | translate }}</p>
+    <div class="si-error" role="alert" aria-live="assertive">
+      <p>{{ errorKey() | translate }}</p>
     </div>
   }
 
   <!-- Form -->
-  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col gap-4" novalidate>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="si-form" novalidate>
 
-    <div class="flex flex-col gap-1.5">
-      <label class="text-sm font-bold text-ink-secondary" for="email">
-        {{ 'AUTH.EMAIL' | translate }}
-      </label>
+    <div class="si-field">
+      <label class="si-label" for="email">{{ 'AUTH.EMAIL' | translate }}</label>
       <input
         id="email"
         type="email"
@@ -35,16 +32,14 @@
         [attr.aria-describedby]="showError('email') ? 'email-err' : null"
       />
       @if (showError('email')) {
-        <p id="email-err" class="text-xs text-brand-red font-semibold" role="alert">
+        <p id="email-err" class="si-field-error" role="alert">
           {{ 'AUTH.ERRORS.INVALID_EMAIL' | translate }}
         </p>
       }
     </div>
 
-    <div class="flex flex-col gap-1.5">
-      <label class="text-sm font-bold text-ink-secondary" for="password">
-        {{ 'AUTH.PASSWORD' | translate }}
-      </label>
+    <div class="si-field">
+      <label class="si-label" for="password">{{ 'AUTH.PASSWORD' | translate }}</label>
       <input
         id="password"
         type="password"
@@ -56,27 +51,24 @@
       />
     </div>
 
-    <div class="flex justify-end -mt-1">
-      <a routerLink="/auth/forgot-password"
-         class="text-sm font-bold text-brand-purple hover:underline">
-        {{ 'AUTH.FORGOT_PASSWORD' | translate }}
-      </a>
+    <div class="si-forgot-row">
+      <a routerLink="/auth/forgot-password">{{ 'AUTH.FORGOT_PASSWORD' | translate }}</a>
     </div>
 
-    <bc-button type="submit" variant="primary" size="lg" [fullWidth]="true" [loading]="loading()">
+    <bc-button type="submit" variant="primary" size="lg" [fullWidth]="true" [square]="true" [loading]="loading()">
       {{ 'AUTH.SIGN_IN' | translate }}
     </bc-button>
   </form>
 
   <!-- Divider -->
-  <div class="flex items-center gap-3">
-    <div class="flex-1 h-px bg-surface-muted"></div>
-    <span class="text-xs font-bold text-ink-muted uppercase tracking-wide">{{ 'COMMON.OR' | translate }}</span>
-    <div class="flex-1 h-px bg-surface-muted"></div>
+  <div class="si-divider">
+    <div class="si-divider-line"></div>
+    <span class="si-divider-text">{{ 'COMMON.OR' | translate }}</span>
+    <div class="si-divider-line"></div>
   </div>
 
   <!-- Social buttons -->
-  <div class="flex flex-col gap-3">
+  <div class="si-socials">
     <button type="button" class="bc-social-btn" [disabled]="loading()" (click)="signInWithGoogle()">
       <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
         <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
@@ -98,10 +90,9 @@
   </div>
 
   <!-- Sign-up link -->
-  <p class="text-center text-sm text-ink-secondary mt-auto">
+  <p class="si-footer">
     {{ 'AUTH.NO_ACCOUNT' | translate }}
-    <a routerLink="/auth/sign-up" class="font-bold text-brand-purple hover:underline ms-1">
-      {{ 'AUTH.SIGN_UP' | translate }}
-    </a>
+    <a routerLink="/auth/sign-up">{{ 'AUTH.SIGN_UP' | translate }}</a>
   </p>
 </div>
+

@@ -9,6 +9,7 @@ import { CheckInRepository } from '@core/firestore/check-in.repository';
 import { Child } from '@core/models/user.model';
 import { CheckIn, PAIN_EMOJI } from '@core/models/check-in.model';
 import { BcAvatarComponent, AVATAR_OPTIONS } from '@shared/components';
+import { BODY_LOCATIONS } from '@core/symptom-engine/symptom-config';
 
 const AVATAR_IDS = Object.keys(AVATAR_OPTIONS).map(Number);
 
@@ -207,7 +208,18 @@ const AVATAR_IDS = Object.keys(AVATAR_OPTIONS).map(Number);
       color: #7C4DFF; background: #EDE7FF; border-radius: 999px;
       padding: 0.1rem 0.5rem; width: fit-content;
     }
-    .ch-chevron { font-size: 1.25rem; color: #9CA3AF; transition: transform 0.2s ease; }
+    .ch-chevron {
+      /* full Material Symbols setup — same as .ch-action-btn icons */
+      font-family: 'Material Symbols Rounded', sans-serif !important;
+      font-size: 1.25rem;
+      color: #9CA3AF;
+      transition: transform 0.2s ease;
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      direction: ltr !important;
+      unicode-bidi: bidi-override !important;
+      white-space: nowrap;
+      display: inline-block;
+    }
 
     .ch-actions {
       display: grid; grid-template-columns: 1fr 1fr;
@@ -218,7 +230,15 @@ const AVATAR_IDS = Object.keys(AVATAR_OPTIONS).map(Number);
       padding: 0.5rem 0.5rem; border-radius: 0.625rem; border: 1.5px solid #E9E3FF;
       background: #F8F6FF; color: #7C4DFF; font-size: 0.7rem; font-weight: 700;
       cursor: pointer; -webkit-tap-highlight-color: transparent;
-      .material-symbols-rounded { font-size: 1rem; }
+      .material-symbols-rounded {
+        font-family: 'Material Symbols Rounded', sans-serif !important;
+        font-size: 1rem;
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        direction: ltr !important;
+        unicode-bidi: bidi-override !important;
+        white-space: nowrap;
+        display: inline-block;
+      }
       &--warn  { color: #FF9800; border-color: rgba(255,152,0,0.25); background: #FFF8F0; }
       &--danger{ color: #EF5350; border-color: rgba(239,83,80,0.25); background: #FFF5F5; }
       &:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -381,6 +401,12 @@ export class ChildrenComponent {
   }
 
   private buildCsv(childName: string, checkIns: CheckIn[]): string {
+    const t = (key: string) => this.translate.instant(key);
+    const locLabel = (id: string) => {
+      const loc = BODY_LOCATIONS.find(l => l.id === id);
+      return loc ? t(loc.labelKey) : id.replace(/_/g, ' ');
+    };
+
     const header = [
       'Date', 'Time', 'Pain (0-4)', 'Pain Emoji',
       'Body Locations', 'Feel Types', 'Onset',
@@ -397,7 +423,7 @@ export class ChildrenComponent {
         time,
         ci.painLevel,
         PAIN_EMOJI[ci.painLevel] ?? '',
-        csv(ci.bodyLocations.join(' | ')),
+        csv(ci.bodyLocations.map(locLabel).join(' | ')),
         csv(ci.symptoms.map(s => s.typeId).join(' | ')),
         csv(ci.onset ?? ''),
         csv(ci.activities.join(' | ')),

@@ -47,6 +47,7 @@ import { BcMascotComponent, BcButtonComponent, BcLangSwitcherComponent } from '@
           variant="primary"
           size="lg"
           [fullWidth]="true"
+          [square]="true"
           (clicked)="startCheckIn()"
         >
           <span style="display:inline-flex;align-items:center;gap:0.5rem">

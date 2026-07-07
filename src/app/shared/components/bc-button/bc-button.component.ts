@@ -50,6 +50,7 @@ export class BcButtonComponent {
   readonly iconRight = input<string>('');
   readonly ariaLabel = input<string>('');
   readonly fullWidth = input(false);
+  readonly square    = input(false);  // true = rectangular (0.75rem radius), false = pill
 
   readonly clicked = output<MouseEvent>();
 
@@ -66,6 +67,9 @@ export class BcButtonComponent {
     // State
     'bc-btn--loading':   this.loading(),
     'bc-btn--disabled':  this.disabled(),
-    'w-full': this.fullWidth(),
+    // Layout — using SCSS classes instead of unreliable Tailwind
+    'bc-btn--full':   this.fullWidth(),
+    'bc-btn--square': this.square(),
+    'w-full': this.fullWidth(),  // keep for backward compat
   }));
 }

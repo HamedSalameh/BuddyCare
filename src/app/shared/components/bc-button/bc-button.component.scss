@@ -4,6 +4,11 @@
   outline: none;
   white-space: nowrap;
   -webkit-tap-highlight-color: transparent;
+  /* Default pill shape — matches rounded-pill Tailwind class */
+  border-radius: 9999px;
+
+  &.bc-btn--full   { width: 100%; }
+  &.bc-btn--square { border-radius: 0.75rem; }
 
   &:disabled,
   &.bc-btn--disabled {

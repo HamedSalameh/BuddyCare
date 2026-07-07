@@ -132,8 +132,8 @@
             <div class="checkin-item">
               <span class="checkin-emoji">{{ PAIN_EMOJI[ci.painLevel] }}</span>
               <div class="checkin-detail">
-                <span class="checkin-locations">{{ ci.bodyLocations.join(', ') | titlecase }}</span>
-                <span class="checkin-date">{{ ci.mood | titlecase }}</span>
+                <span class="checkin-locations">{{ locationLabels(ci.bodyLocations) }}</span>
+                <span class="checkin-date">{{ ci.mood }}</span>
               </div>
               <span class="checkin-pain-badge" [style.color]="ci.painLevel >= 3 ? '#EF5350' : '#7C4DFF'">
                 {{ ci.painLevel }}/4
