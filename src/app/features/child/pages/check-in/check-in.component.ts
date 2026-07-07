@@ -6,7 +6,6 @@ import { AuthService } from '@core/auth/auth.service';
 import { CheckInRepository } from '@core/firestore/check-in.repository';
 import { RewardService } from '@core/rewards/reward.service';
 import {
-  BcProgressBarComponent,
   BcButtonComponent,
   BcChoiceChipComponent,
   BcMascotComponent,
@@ -20,7 +19,6 @@ import { PainLevel } from '@core/models/check-in.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     TranslatePipe,
-    BcProgressBarComponent,
     BcButtonComponent,
     BcChoiceChipComponent,
     BcMascotComponent,
