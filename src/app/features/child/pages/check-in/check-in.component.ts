@@ -38,8 +38,7 @@ export class CheckInComponent {
 
   readonly mascotMoods = computed(() => {
     const step = this.flow.step();
-    if (step === 7)   return 'celebrating' as const;
-    if (step >= 5)    return 'happy' as const;
+    if (step >= 4)    return 'happy' as const;
     return 'curious' as const;
   });
 
@@ -50,8 +49,6 @@ export class CheckInComponent {
       'CHECK_IN.STEP_FEEL_TYPE',
       'CHECK_IN.STEP_ONSET',
       'CHECK_IN.STEP_ACTIVITY',
-      'CHECK_IN.STEP_MOOD',
-      'CHECK_IN.STEP_VOICE',
     ];
     return keys[this.flow.step() - 1] ?? '';
   });

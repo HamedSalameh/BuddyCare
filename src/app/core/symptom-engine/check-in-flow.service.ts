@@ -5,18 +5,16 @@ import {
   FEEL_TYPES,
   ONSET_OPTIONS,
   ACTIVITY_OPTIONS,
-  MOOD_OPTIONS,
   BodyLocation,
   PainOption,
   FeelType,
   OnsetOption,
   ActivityOption,
-  MoodOption,
 } from './symptom-config';
 import { CheckIn, PainLevel, isEmergency } from '@core/models/check-in.model';
 
-export type CheckInStep = 1 | 2 | 3 | 4 | 5 | 6 | 7;
-export const TOTAL_STEPS: CheckInStep = 7;
+export type CheckInStep = 1 | 2 | 3 | 4 | 5;
+export const TOTAL_STEPS: CheckInStep = 5;
 
 export interface CheckInDraft {
   bodyLocations: string[];
@@ -24,8 +22,6 @@ export interface CheckInDraft {
   feelTypes:     string[];
   onset:         string | null;
   activities:    string[];
-  mood:          string | null;
-  voiceNoteId:   string | null;
 }
 
 const EMPTY_DRAFT: CheckInDraft = {
@@ -34,8 +30,6 @@ const EMPTY_DRAFT: CheckInDraft = {
   feelTypes:     [],
   onset:         null,
   activities:    [],
-  mood:          null,
-  voiceNoteId:   null,
 };
 
 @Injectable({ providedIn: 'root' })
@@ -52,7 +46,6 @@ export class CheckInFlowService {
   readonly feelTypes      = signal<FeelType[]>(FEEL_TYPES);
   readonly onsetOptions   = signal<OnsetOption[]>(ONSET_OPTIONS);
   readonly activityOptions = signal<ActivityOption[]>(ACTIVITY_OPTIONS);
-  readonly moodOptions    = signal<MoodOption[]>(MOOD_OPTIONS);
 
   // ─── Derived ─────────────────────────────────────────────────────────────
   readonly progress = computed(() =>
@@ -76,8 +69,6 @@ export class CheckInFlowService {
       case 3: return d.feelTypes.length > 0;
       case 4: return d.onset !== null;
       case 5: return d.activities.length > 0;
-      case 6: return d.mood !== null;
-      case 7: return true; // voice note is optional
       default: return false;
     }
   });
@@ -154,15 +145,6 @@ export class CheckInFlowService {
     });
   }
 
-  setMood(id: string): void {
-    this.draft.update(d => ({ ...d, mood: id }));
-    setTimeout(() => this.next(), 350);
-  }
-
-  setVoiceNote(id: string | null): void {
-    this.draft.update(d => ({ ...d, voiceNoteId: id }));
-  }
-
   // ─── Build final CheckIn ─────────────────────────────────────────────────
 
   buildCheckIn(familyId: string, childId: string): Omit<CheckIn, 'id'> {
@@ -176,8 +158,6 @@ export class CheckInFlowService {
       symptoms:      d.feelTypes.map(id => ({ categoryId: 'abdominal', typeId: id })),
       onset:         d.onset ?? 'today',
       activities:    d.activities,
-      mood:          d.mood ?? 'happy',
-      ...(d.voiceNoteId != null ? { voiceNoteId: d.voiceNoteId } : {}),
       emergencyFlag: this.isEmergencyFlag(),
       syncState:     'pending',
       createdAt:     new Date() as any,

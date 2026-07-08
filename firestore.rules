@@ -89,6 +89,15 @@ service cloud.firestore {
           request.resource.data.familyId == resource.data.familyId;
 
         allow delete: if isFamilyAdmin(familyId);
+
+        // ── RewardState subcollection ─────────────────────────────────────
+        // Stores per-child gamification state (points, levels, streaks).
+        // Any family member can read and write so the child-facing UI
+        // can load and update rewards after each check-in.
+        match /rewardState/{docId} {
+          allow read:  if isFamilyMember(familyId);
+          allow write: if isFamilyMember(familyId);
+        }
       }
 
       // ── CheckIns subcollection ──────────────────────────────────────────

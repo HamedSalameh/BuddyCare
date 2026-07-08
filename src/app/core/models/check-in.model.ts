@@ -26,7 +26,7 @@ export interface CheckIn {
   symptoms:      SymptomEntry[];
   onset:         string;            // 'just_now' | 'today' | 'yesterday' | 'few_days'
   activities:    string[];          // e.g. ['eating', 'school']
-  mood:          string;            // 'happy' | 'sad' | 'angry' | 'scared' | 'tired' | 'excited'
+  mood?:         string;            // 'happy' | 'sad' | 'angry' | 'scared' | 'tired' | 'excited'
 
   // Optional
   voiceNoteId?:  string;

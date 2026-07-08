@@ -138,34 +138,6 @@
         </div>
       }
 
-      <!-- Step 6: Mood -->
-      @if (flow.step() === 6) {
-        <div class="option-grid option-grid--3col">
-          @for (m of flow.moodOptions(); track m.id) {
-            <bc-choice-chip
-              [value]="m.id"
-              [label]="m.labelKey | translate"
-              [emoji]="m.emoji"
-              size="lg"
-              [selected]="flow.draft().mood === m.id"
-              (chipSelected)="flow.setMood($event)"
-            />
-          }
-        </div>
-      }
-
-      <!-- Step 7: Voice note (optional) -->
-      @if (flow.step() === 7) {
-        <div class="voice-step">
-          <div class="voice-record-btn">
-            <span class="material-symbols-rounded" dir="ltr" style="font-size:2.5rem;color:#fff;font-variation-settings:'FILL' 1">mic</span>
-          </div>
-          <p style="font-size:0.75rem;color:#9CA3AF;margin:0">00:00</p>
-          <bc-button variant="ghost" size="md" (clicked)="finish()">
-            {{ 'CHECK_IN.VOICE.SKIP' | translate }}
-          </bc-button>
-        </div>
-      }
     </div>
 
     <!-- Footer: Back + Next buttons -->
